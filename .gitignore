@@ -1,0 +1,3 @@
+scripts/dev/out/
+node_modules/
+.claude/

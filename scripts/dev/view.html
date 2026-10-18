@@ -1,0 +1,10 @@
+<!doctype html><meta charset="utf-8"><title>asset view</title>
+<style>html,body{margin:0;background:#0d1117;overflow:hidden}img{position:absolute;transform-origin:0 0}</style>
+<img id="i">
+<script>
+// Dev-only asset inspector: ?f=assets/x.svg&w=<display width>&x=<pan x px>&y=<pan y px>
+const q = new URLSearchParams(location.search), i = document.getElementById('i');
+i.src = '../../' + q.get('f') + '?' + Date.now();
+i.style.width = (q.get('w') || innerWidth) + 'px';
+i.style.left = -(+q.get('x') || 0) + 'px'; i.style.top = -(+q.get('y') || 0) + 'px';
+</script>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile preview</title>
+<!-- Dev-only: approximates how GitHub renders the profile README (dark theme, ~830px column). -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<style>
+  body { margin: 0; background: #0d1117; }
+  .box { max-width: 830px; margin: 24px auto; border: 1px solid #30363d; border-radius: 6px; padding: 24px; }
+  .box.light { background: #fff; }
+  .bar { max-width: 878px; margin: 12px auto 0; color: #8b949e; font: 12px ui-monospace, monospace; display: flex; justify-content: space-between; }
+  .bar a { color: #58a6ff; cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="bar"><span>README.md preview · github-like</span><a id="theme">toggle light</a></div>
+<div class="box"><article class="markdown-body" id="md"></article></div>
+<script>
+  fetch('../../README.md?' + Date.now()).then(r => r.text()).then(src => {
+    const html = marked.parse(src).replace(/src="assets\//g, 'src="../../assets/').replace(/href="SECRET.md"/g, 'href="../../SECRET.md"');
+    document.getElementById('md').innerHTML = html;
+  });
+  document.getElementById('theme').onclick = () => {
+    const l = document.querySelector('link');
+    const light = l.href.includes('dark');
+    l.href = l.href.replace(light ? 'dark' : 'light', light ? 'light' : 'dark');
+    document.body.style.background = light ? '#fff' : '#0d1117';
+  };
+</script>
+</body>
+</html>
