@@ -1,0 +1,318 @@
+{
+  "demo": false,
+  "generatedAt": "2026-10-18T13:15:56.770Z",
+  "login": "Renkaslana",
+  "playtime": "2y 1m",
+  "totals": {
+    "contributionsAllTime": 449,
+    "contributionsYear": 398,
+    "commitsYear": 375,
+    "prsYear": 2,
+    "issuesYear": 0,
+    "reviewsYear": 0,
+    "repos": 40,
+    "stars": 5
+  },
+  "languages": [
+    {
+      "name": "TypeScript",
+      "color": "#3178c6",
+      "pct": 0.4070114966358854
+    },
+    {
+      "name": "Jupyter Notebook",
+      "color": "#DA5B0B",
+      "pct": 0.27789729804001784
+    },
+    {
+      "name": "Kotlin",
+      "color": "#A97BFF",
+      "pct": 0.08730800574424705
+    },
+    {
+      "name": "JavaScript",
+      "color": "#f1e05a",
+      "pct": 0.05305891059577551
+    },
+    {
+      "name": "Blade",
+      "color": "#f7523f",
+      "pct": 0.0482117719796811
+    },
+    {
+      "name": "Python",
+      "color": "#3572A5",
+      "pct": 0.029275464915447448
+    },
+    {
+      "name": "HTML",
+      "color": "#e34c26",
+      "pct": 0.028016592141252947
+    },
+    {
+      "name": "PHP",
+      "color": "#4F5D95",
+      "pct": 0.026695354887046007
+    },
+    {
+      "name": "CSS",
+      "color": "#663399",
+      "pct": 0.01959470138619536
+    },
+    {
+      "name": "Pug",
+      "color": "#a86454",
+      "pct": 0.017333800129647612
+    },
+    {
+      "name": "Java",
+      "color": "#b07219",
+      "pct": 0.0025223620307586988
+    },
+    {
+      "name": "Batchfile",
+      "color": "#C1F12E",
+      "pct": 0.0010957850424796118
+    },
+    {
+      "name": "PowerShell",
+      "color": "#012456",
+      "pct": 0.0009636697106632265
+    },
+    {
+      "name": "PLpgSQL",
+      "color": "#336790",
+      "pct": 0.0008336527799239758
+    },
+    {
+      "name": "Shell",
+      "color": "#89e051",
+      "pct": 0.00018096610889207528
+    },
+    {
+      "name": "Assembly",
+      "color": "#6E4C13",
+      "pct": 1.678720861707563e-7
+    }
+  ],
+  "streak": {
+    "current": 1,
+    "longest": 8
+  },
+  "weeks": [
+    {
+      "start": "2025-10-19",
+      "count": 11
+    },
+    {
+      "start": "2025-10-26",
+      "count": 0
+    },
+    {
+      "start": "2025-11-02",
+      "count": 3
+    },
+    {
+      "start": "2025-11-09",
+      "count": 7
+    },
+    {
+      "start": "2025-11-16",
+      "count": 0
+    },
+    {
+      "start": "2025-11-23",
+      "count": 16
+    },
+    {
+      "start": "2025-11-30",
+      "count": 0
+    },
+    {
+      "start": "2025-12-07",
+      "count": 8
+    },
+    {
+      "start": "2025-12-14",
+      "count": 53
+    },
+    {
+      "start": "2025-12-21",
+      "count": 6
+    },
+    {
+      "start": "2025-12-28",
+      "count": 10
+    },
+    {
+      "start": "2026-01-04",
+      "count": 8
+    },
+    {
+      "start": "2026-01-11",
+      "count": 85
+    },
+    {
+      "start": "2026-01-18",
+      "count": 2
+    },
+    {
+      "start": "2026-01-25",
+      "count": 0
+    },
+    {
+      "start": "2026-02-01",
+      "count": 0
+    },
+    {
+      "start": "2026-02-08",
+      "count": 0
+    },
+    {
+      "start": "2026-02-15",
+      "count": 0
+    },
+    {
+      "start": "2026-02-22",
+      "count": 0
+    },
+    {
+      "start": "2026-03-01",
+      "count": 0
+    },
+    {
+      "start": "2026-03-08",
+      "count": 0
+    },
+    {
+      "start": "2026-03-15",
+      "count": 0
+    },
+    {
+      "start": "2026-03-22",
+      "count": 0
+    },
+    {
+      "start": "2026-03-29",
+      "count": 0
+    },
+    {
+      "start": "2026-04-05",
+      "count": 0
+    },
+    {
+      "start": "2026-04-12",
+      "count": 0
+    },
+    {
+      "start": "2026-04-19",
+      "count": 0
+    },
+    {
+      "start": "2026-04-26",
+      "count": 0
+    },
+    {
+      "start": "2026-05-03",
+      "count": 0
+    },
+    {
+      "start": "2026-05-10",
+      "count": 14
+    },
+    {
+      "start": "2026-05-17",
+      "count": 0
+    },
+    {
+      "start": "2026-05-24",
+      "count": 17
+    },
+    {
+      "start": "2026-05-31",
+      "count": 63
+    },
+    {
+      "start": "2026-06-07",
+      "count": 18
+    },
+    {
+      "start": "2026-06-14",
+      "count": 48
+    },
+    {
+      "start": "2026-06-21",
+      "count": 16
+    },
+    {
+      "start": "2026-06-28",
+      "count": 2
+    },
+    {
+      "start": "2026-07-05",
+      "count": 0
+    },
+    {
+      "start": "2026-07-12",
+      "count": 1
+    },
+    {
+      "start": "2026-07-19",
+      "count": 0
+    },
+    {
+      "start": "2026-07-26",
+      "count": 0
+    },
+    {
+      "start": "2026-08-02",
+      "count": 0
+    },
+    {
+      "start": "2026-08-09",
+      "count": 0
+    },
+    {
+      "start": "2026-08-16",
+      "count": 0
+    },
+    {
+      "start": "2026-08-23",
+      "count": 0
+    },
+    {
+      "start": "2026-08-30",
+      "count": 0
+    },
+    {
+      "start": "2026-09-06",
+      "count": 1
+    },
+    {
+      "start": "2026-09-13",
+      "count": 0
+    },
+    {
+      "start": "2026-09-20",
+      "count": 2
+    },
+    {
+      "start": "2026-09-27",
+      "count": 0
+    },
+    {
+      "start": "2026-10-04",
+      "count": 0
+    },
+    {
+      "start": "2026-10-11",
+      "count": 2
+    },
+    {
+      "start": "2026-10-18",
+      "count": 5
+    }
+  ],
+  "xp": 4740,
+  "level": 7
+}
