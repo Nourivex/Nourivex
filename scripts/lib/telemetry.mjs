@@ -83,10 +83,10 @@ ${legend}`;
 
 export function activityCard(s) {
   const t = new Typo('v');
-  const h = 230;
+  const h = 250;
   const weeks = s.weeks.slice(-26);
   const max = Math.max(4, ...weeks.map((w) => w.count));
-  const x0 = 40, x1 = W - 40, base = 196, top = 92;
+  const x0 = 40, x1 = W - 40, base = 214, top = 132; // ridge stays clear of the heading
   const step = (x1 - x0) / (weeks.length - 1);
   const pts = weeks.map((w, i) => [x0 + i * step, base - (w.count / max) * (base - top) - 3]);
   // smooth ridge (Catmull-Rom → Bézier)
@@ -117,9 +117,9 @@ ${heading(t, { x: 40, y: 88, title: 'ACTIVITY', sub: 'contribution terrain' })}
 <path d="M${x0} ${base}H${x1}" stroke="${C.line2}"/>
 ${months.map(({ i, m }) => t.text(m.toUpperCase(), { x: x0 + i * step, y: base + 22, size: 10, style: 'mono500', fill: C.dim, ls: 1 })).join('')}
 <g class="a" style="animation:fadeIn .4s 1.2s both">
-  <path d="M${px.toFixed(1)} ${(py - 6).toFixed(1)}V${(py - 34).toFixed(1)}" stroke="${C.amber}" stroke-width="2"/>
-  <path d="M${px.toFixed(1)} ${(py - 34).toFixed(1)}h16l-5 6 5 6h-16Z" fill="${C.amber}"/>
-  ${t.text(`PEAK ${weeks[peakI].count}`, { x: px + (px > W - 140 ? -10 : 22), y: py - 22, size: 11, style: 'mono700', fill: C.amber, anchor: px > W - 140 ? 'end' : 'start', ls: 1 })}
+  <path d="M${px.toFixed(1)} ${(py - 6).toFixed(1)}V${(py - 32).toFixed(1)}" stroke="${C.amber}" stroke-width="2"/>
+  <path d="M${px.toFixed(1)} ${(py - 32).toFixed(1)}h16l-5 6 5 6h-16Z" fill="${C.amber}"/>
+  ${t.text(`PEAK ${weeks[peakI].count}`, { x: px + (px > W - 140 ? -8 : 24), y: py - 23, size: 11, style: 'mono700', fill: C.amber, anchor: px > W - 140 ? 'end' : 'start', ls: 1 })}
 </g>
 <g>${lumiTiny(3)}<animateMotion dur="18s" repeatCount="indefinite" path="${walkPath}" begin="1.4s"/></g>`;
   return svgDoc({

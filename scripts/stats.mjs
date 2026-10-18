@@ -59,7 +59,9 @@ let stars = 0;
 for (const r of u.repositories.nodes) {
   stars += r.stargazerCount;
   for (const e of r.languages.edges) {
-    const cur = langMap.get(e.node.name) || { name: e.node.name, color: e.node.color, size: 0 };
+    // notebooks are Python whose size is inflated by stored outputs — count them as Python
+    const node = e.node.name === 'Jupyter Notebook' ? { name: 'Python', color: '#3572A5' } : e.node;
+    const cur = langMap.get(node.name) || { name: node.name, color: node.color, size: 0 };
     cur.size += e.size;
     langMap.set(e.node.name, cur);
   }
