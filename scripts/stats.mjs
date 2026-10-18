@@ -63,7 +63,7 @@ for (const r of u.repositories.nodes) {
     const node = e.node.name === 'Jupyter Notebook' ? { name: 'Python', color: '#3572A5' } : e.node;
     const cur = langMap.get(node.name) || { name: node.name, color: node.color, size: 0 };
     cur.size += e.size;
-    langMap.set(e.node.name, cur);
+    langMap.set(node.name, cur);
   }
 }
 const totalBytes = [...langMap.values()].reduce((a, l) => a + l.size, 0) || 1;
