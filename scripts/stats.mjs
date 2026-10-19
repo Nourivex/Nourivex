@@ -14,7 +14,7 @@ if (!login || login === 'YOUR_GITHUB_USERNAME') throw new Error('Set "username" 
 async function gql(query, variables) {
   const res = await fetch('https://api.github.com/graphql', {
     method: 'POST',
-    headers: { Authorization: `bearer ${token}`, 'Content-Type': 'application/json', 'User-Agent': 'lumen-profile' },
+    headers: { Authorization: `bearer ${token}`, 'Content-Type': 'application/json', 'User-Agent': 'nourivex-profile' },
     body: JSON.stringify({ query, variables }),
   });
   const json = await res.json();

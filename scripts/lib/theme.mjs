@@ -1,7 +1,7 @@
 // Design system for every generated asset. One palette, one frame, one motion language.
 import { esc } from './text.mjs';
 
-// Colour carries meaning: cyan = the system, sakura = Lumi only, amber = progression.
+// Colour carries meaning: cyan = the system, sakura = hidden / secret layers, amber = progression.
 export const C = {
   void: '#07090F',
   panel: '#0D1220',

@@ -1,7 +1,7 @@
-# Keeps the profile alive: real stats every morning, and Lumi falls asleep at night.
+# Keeps the profile alive: real stats every morning, and Nouri hibernates at night.
 # Cron is UTC. 23:00 UTC = 06:00 WIB (wake up), 15:00 UTC = 22:00 WIB (sleep).
 # If you change "timezone"/"nightHours" in profile.config.json, shift these too.
-name: lumen
+name: nourivex
 
 on:
   schedule:
@@ -16,7 +16,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: lumen
+  group: nourivex
   cancel-in-progress: true
 
 jobs:
@@ -44,4 +44,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add assets data README.md SECRET.md
-          git diff --cached --quiet || (git commit -m "chore(lumen): refresh profile assets" && git push)
+          git diff --cached --quiet || (git commit -m "chore(nourivex): refresh profile assets" && git push)

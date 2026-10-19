@@ -1,16 +1,17 @@
-// HERO — identity top-left, the system terminal along the bottom, and Lumi
-// sitting on the terminal's edge. The terminal boots, she drops in, the system
-// runs a liveness check on her, she blinks, it passes. Then everything rests.
+// HERO — identity top-left, the system terminal along the bottom, and Nouri
+// (the polar-bear companion) sitting on the terminal's edge. The terminal boots,
+// he drops in, the system runs a liveness check on him, he blinks, it passes.
+// Then everything rests.
 import { Typo } from './text.mjs';
 import { C, svgDoc, gridPattern, frame } from './theme.mjs';
-import { lumiPixel, lumiPixelCss, LEDGE, FACE_BOX } from './pixel-lumi.mjs';
+import { bearPixel, bearPixelCss, LEDGE, FACE_BOX } from './pixel-bear.mjs';
 
 const W = 1000;
 const H = 540;
 const PX = 6;
 // terminal panel
 const TX = 40, TY = 338, TW = 920, TH = 178;
-// Lumi sits on the terminal's top edge
+// Nouri sits on the terminal's top edge
 const LX = 690, LY = TY - LEDGE * PX;
 
 const css = `
@@ -37,15 +38,15 @@ export function buildHero(cfg, { mode = 'day', level = null } = {}) {
   const night = mode === 'night';
   const t = new Typo('h');
   const clips = [];
-  const user = cfg.name.toLowerCase();
+  const user = cfg.username.toLowerCase();
 
   // ---------- terminal lines ----------
   const lx = TX + 28, ly0 = TY + 62, lh = 21;
   const L = [
-    { p: '$', pc: C.cyan, s: `boot lumen --user ${user}`, c: C.text },
-    { p: '[ ok ]', pc: C.green, s: 'kernel ........ full-stack', c: C.muted },
+    { p: '$', pc: C.cyan, s: `boot nourivex --user ${user}`, c: C.text },
+    { p: '[ ok ]', pc: C.green, s: 'kernel ........ backend · cloud', c: C.muted },
     { p: '[ ok ]', pc: C.green, s: `quests ........ ${cfg.projects.length} loaded${level ? ` · player lv ${level}` : ''}`, c: C.muted },
-    { p: '[ ok ]', pc: C.green, s: 'stack ......... next.js · fastapi · opencv', c: C.muted },
+    { p: '[ ok ]', pc: C.green, s: 'stack ......... go · node · postgres · docker', c: C.muted },
     night
       ? { p: '[ zz ]', pc: C.amber, s: 'companion ..... asleep, LED amber', c: C.muted }
       : { p: '[ ok ]', pc: C.green, s: 'companion ..... online', c: C.muted },
@@ -61,9 +62,9 @@ export function buildHero(cfg, { mode = 'day', level = null } = {}) {
     return row;
   }).join('');
 
-  const spawnAt = tt + 0.15; // she drops in once the companion line prints
+  const spawnAt = tt + 0.15; // the bear drops in once the companion line prints
   const checkAt = spawnAt + 0.75; // face box locks on
-  const blinkAt = checkAt + 0.7; // she blinks → liveness passes
+  const blinkAt = checkAt + 0.7; // he blinks → liveness passes
   const blinkDur = 5.2;
   const blinkDelay = +(blinkAt - 0.94 * blinkDur).toFixed(2); // pxBlink closes at 94%
 
@@ -71,9 +72,9 @@ export function buildHero(cfg, { mode = 'day', level = null } = {}) {
   const yL = ly0 + 5 * lh;
   const pw = t.measure('[ .. ]', { style: 'mono700', size: 14 });
   const liveness = night
-    ? `<g class="a" style="animation:fadeIn .01s ${checkAt}s both">${t.text('[ -- ]', { x: lx, y: yL, size: 14, style: 'mono700', fill: C.dim })}${t.text('liveness ...... paused while she sleeps', { x: lx + pw + 10, y: yL, size: 14, fill: C.dim })}</g>`
+    ? `<g class="a" style="animation:fadeIn .01s ${checkAt}s both">${t.text('[ -- ]', { x: lx, y: yL, size: 14, style: 'mono700', fill: C.dim })}${t.text('liveness ...... paused while he sleeps', { x: lx + pw + 10, y: yL, size: 14, fill: C.dim })}</g>`
     : `<g class="a" style="animation:fadeIn .01s ${checkAt}s both,out .01s ${blinkAt + 0.1}s forwards">${t.text('[ .. ]', { x: lx, y: yL, size: 14, style: 'mono700', fill: C.amber })}${t.text('liveness ...... waiting for a blink', { x: lx + pw + 10, y: yL, size: 14, fill: C.muted })}</g>
-<g class="a" style="animation:fadeIn .01s ${blinkAt + 0.1}s both">${t.text('[ ok ]', { x: lx, y: yL, size: 14, style: 'mono700', fill: C.green })}${t.text('liveness ...... blink detected — she is real', { x: lx + pw + 10, y: yL, size: 14, fill: C.text })}</g>`;
+<g class="a" style="animation:fadeIn .01s ${blinkAt + 0.1}s both">${t.text('[ ok ]', { x: lx, y: yL, size: 14, style: 'mono700', fill: C.green })}${t.text('liveness ...... blink detected — he is real', { x: lx + pw + 10, y: yL, size: 14, fill: C.text })}</g>`;
 
   const panel = `
 <rect x="${TX}" y="${TY}" width="${TW}" height="${TH}" rx="12" fill="${C.panel}" stroke="${C.line2}" stroke-width="1.5"/>
@@ -83,7 +84,7 @@ ${t.text('boot.log', { x: TX + 28, y: TY + 22, size: 13, style: 'mono500', fill:
 ${lines}
 ${liveness}`;
 
-  // ---------- Lumi ----------
+  // ---------- Nouri (polar bear) ----------
   const fb = { x: LX + FACE_BOX.x * PX, y: LY + FACE_BOX.y * PX, w: FACE_BOX.w * PX, h: FACE_BOX.h * PX };
   const corner = 16;
   const box = (col) => `<g stroke="${col}" stroke-width="3" fill="none" stroke-linecap="square">
@@ -95,46 +96,59 @@ ${liveness}`;
   <g class="a" style="animation:fadeIn .01s ${blinkAt + 0.1}s both">${box(C.green)}</g>
 </g>`;
 
-  const lumi = `<g class="a" style="animation:drop .5s steps(5) ${spawnAt}s both"><g transform="translate(${LX} ${LY})">${lumiPixel({ px: PX, mode, blinkDelay, blinkDur })}</g></g>${faceCheck}`;
+  const bear = `<g class="a" style="animation:drop .5s steps(5) ${spawnAt}s both"><g transform="translate(${LX} ${LY})">${bearPixel({ px: PX, mode, blinkDelay, blinkDur })}</g></g>${faceCheck}`;
 
   // ---------- identity ----------
   const nameAt = 0.35; // identity first: it is what a visitor reads in the first second
   const name = cfg.name.toUpperCase();
-  const nameY = 214;
+  const nameY = 204;
+  // Nouri occupies the right of the frame from LX, so the identity must clear him
+  const nameMaxW = LX - 46 - 30;
+  let nameSize = 92;
+  while (nameSize > 40 && t.measure(name, { style: 'disp700', size: nameSize, ls: 2 }) > nameMaxW) nameSize -= 2;
+  const nameW = t.measure(name, { style: 'disp700', size: nameSize, ls: 2 });
   const tag = night ? `${user} is probably asleep — leave a message` : cfg.tagline;
-  const tg = typed(t, 'htag', `> ${tag}`, { x: 50, y: nameY + 80, size: 17, fill: C.muted, begin: Math.max(nameAt + 0.9, blinkAt + 0.4), cps: 50 });
+  const roleY = nameY + 42;
+  const roleW = t.measure(cfg.role, { style: 'disp500', size: 26 });
+  const focusW = t.measure(cfg.focus, { style: 'disp500', size: 26 });
+  // long role + focus share a line only when they genuinely clear the companion
+  const oneLine = roleW + 30 + focusW <= LX - 90;
+  const focusX = oneLine ? 50 + roleW + 28 : 50;
+  const focusY = oneLine ? roleY : roleY + 33;
+  const tagY = (oneLine ? roleY : focusY) + 38;
+  const tg = typed(t, 'htag', `> ${tag}`, { x: 50, y: tagY, size: 17, fill: C.muted, begin: Math.max(nameAt + 0.9, blinkAt + 0.4), cps: 50 });
   clips.push(tg.clip);
-  const endX = 50 + [...`> ${tag}`].length * 10.2 + 4;
-  const roleW = t.measure(cfg.role, { style: 'disp500', size: 27 });
+  const endX = 50 + t.measure(`> ${tag}`, { style: 'mono400', size: 17 }) + 6;
+  const roleDot = oneLine ? `<circle cx="${50 + roleW + 14}" cy="${roleY - 9}" r="3.5" fill="${C.cyan}"/>` : '';
   const identity = `
 <g class="a" style="animation:fadeIn .3s ${nameAt - 0.2}s both">${t.text(night ? '// PLAYER 01 · OFFLINE' : '// PLAYER 01', { x: 50, y: 112, size: 14, style: 'mono700', fill: C.amber, ls: 2.5 })}</g>
-<clipPath id="hname"><rect x="40" y="110" height="120" width="0"><animate attributeName="width" values="0;640" dur=".5s" begin="${nameAt}s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></rect></clipPath>
-<g clip-path="url(#hname)">${t.text(name, { x: 46, y: nameY, size: 104, style: 'disp700', fill: C.text, ls: 2 })}</g>
+<clipPath id="hname"><rect x="40" y="106" height="132" width="0"><animate attributeName="width" values="0;${Math.ceil(nameW) + 24}" dur=".5s" begin="${nameAt}s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></rect></clipPath>
+<g clip-path="url(#hname)">${t.text(name, { x: 46, y: nameY, size: nameSize, style: 'disp700', fill: C.text, ls: 2 })}</g>
 <g class="a" style="animation:fadeUp .5s ${nameAt + 0.3}s both">
-  ${t.text(cfg.role, { x: 50, y: nameY + 44, size: 27, style: 'disp500', fill: C.text })}
-  <circle cx="${50 + roleW + 14}" cy="${nameY + 35}" r="3.5" fill="${C.cyan}"/>
-  ${t.text(cfg.focus, { x: 50 + roleW + 28, y: nameY + 44, size: 27, style: 'disp500', fill: C.cyan })}
+  ${t.text(cfg.role, { x: 50, y: roleY, size: 26, style: 'disp500', fill: C.text })}
+  ${roleDot}
+  ${t.text(cfg.focus, { x: focusX, y: focusY, size: 26, style: 'disp500', fill: C.cyan })}
 </g>
 ${tg.svg}
-<rect x="${endX}" y="${nameY + 64}" width="10" height="20" fill="${C.cyan}" class="a" style="animation:fadeIn .01s ${tg.end}s both,blinkCursor 1.1s steps(1) ${tg.end}s infinite"/>`;
+<rect x="${endX}" y="${tagY - 16}" width="10" height="20" fill="${C.cyan}" class="a" style="animation:fadeIn .01s ${tg.end}s both,blinkCursor 1.1s steps(1) ${tg.end}s infinite"/>`;
 
   const body = `
-${frame(t, { w: W, h: H, title: `lumen://${user}`, tag: night ? '◐ COMPANION ASLEEP' : '● COMPANION ONLINE', tagColor: night ? C.amber : C.green, gridId: 'hgrid' })}
+${frame(t, { w: W, h: H, title: `nouri://${user}`, tag: night ? '◐ COMPANION ASLEEP' : '● COMPANION ONLINE', tagColor: night ? C.amber : C.green, gridId: 'hgrid' })}
 ${identity}
 ${panel}
-${lumi}`;
+${bear}`;
 
   return svgDoc({
     w: W, h: H,
     title: `${cfg.name} — ${cfg.role}`,
-    desc: `${cfg.name}, ${cfg.role} focused on ${cfg.focus}. ${cfg.tagline} A boot screen: the terminal starts, the pixel companion Lumi sits on its edge and passes a blink liveness check.`,
-    css: css + lumiPixelCss,
+    desc: `${cfg.name}, ${cfg.role} focused on ${cfg.focus}. ${cfg.tagline} A boot screen: the terminal starts, the pixel polar bear Nouri sits on its edge and passes a blink liveness check.`,
+    css: css + bearPixelCss,
     defs: `${gridPattern('hgrid', 28, C.line, 0.35)}${clips.join('')}`,
     body,
     typo: t,
     comment: `  hey — you opened the source. respect.
-  L.U.M.I · Liveness & Utility Monitoring Interface
-  status : ${night ? 'asleep. the LED on her headphones is amber.' : 'online. watch her headphone LED.'}
+  NOURI · the Nourivex polar bear, a cyber-vanguard companion process
+  status : ${night ? 'asleep. the LED on his visor is amber.' : 'online. watch his visor LED.'}
   achievement unlocked: SOURCE READER`,
   });
 }

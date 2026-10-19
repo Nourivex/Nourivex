@@ -1,7 +1,7 @@
 // Section assets: dock, about, loadout, now-running, quest log, save point, footer.
 import { Typo } from './text.mjs';
 import { C, svgDoc, gridPattern, frame, chip } from './theme.mjs';
-import { lumiPixel, lumiPixelCss, LEDGE } from './pixel-lumi.mjs';
+import { bearPixel, bearPixelCss, LEDGE } from './pixel-bear.mjs';
 import { techIcon, ui } from './icons.mjs';
 
 const W = 1000;
@@ -66,10 +66,13 @@ export function aboutCard(cfg) {
   const factSvg = facts.map(([k, v], i) => {
     const x = 556 + (i % 2) * 206, y = 76 + Math.floor(i / 2) * 62;
     const live = k === 'STATUS';
+    const vx = x + (live ? 30 : 14), vMax = 196 - (live ? 30 : 14) - 10;
+    let vs = 16;
+    while (vs > 11 && t.measure(v, { style: 'disp500', size: vs }) > vMax) vs -= 1;
     return `<rect x="${x}" y="${y}" width="196" height="50" rx="10" fill="${C.panel}" stroke="${C.line}"/>
 ${t.text(k, { x: x + 14, y: y + 19, size: 11, style: 'mono700', fill: C.dim, ls: 2 })}
 ${live ? `<circle cx="${x + 19}" cy="${y + 34}" r="4" fill="${C.green}"/>` : ''}
-${t.text(v, { x: x + (live ? 30 : 14), y: y + 39, size: 16, style: 'disp500', fill: live ? C.green : C.text })}`;
+${t.text(v, { x: vx, y: y + 39, size: vs, style: 'disp500', fill: live ? C.green : C.text })}`;
   }).join('');
   const body = `
 ${frame(t, { w: W, h, title: 'about.md', tag: 'PLAYER PROFILE', gridId: 'agrid' })}
@@ -132,12 +135,20 @@ export function nowRunning(cfg) {
   const q = cfg.currentQuest;
   const css = `@keyframes slide{0%{transform:translateX(-90px)}100%{transform:translateX(250px)}}.seg{animation:slide 1.8s cubic-bezier(.6,0,.4,1) infinite}`;
   const label = chip(t, { x: 28, y: 22, label: 'NOW RUNNING', color: C.amber, size: 11, h: 22, dot: true });
+  const titleW = t.measure(q.title, { style: 'disp700', size: 24 });
+  const phaseX = 28 + titleW + 14;
+  const phaseMax = (W - 300) - 16 - phaseX;
+  let phase = `— ${q.phase}`;
+  if (t.measure(phase, { style: 'disp500', size: 16 }) > phaseMax) {
+    while (phase.length > 4 && t.measure(phase + '…', { style: 'disp500', size: 16 }) > phaseMax) phase = phase.slice(0, -1);
+    phase += '…';
+  }
   const body = `
 <rect x="1" y="1" width="${W - 2}" height="${h - 2}" rx="18" fill="${C.void}" stroke="${C.line2}" stroke-width="1.5"/>
 <rect x="1" y="1" width="6" height="${h - 2}" rx="3" fill="${C.amber}"/>
 ${label.svg}
 ${t.text(q.title, { x: 28, y: 74, size: 24, style: 'disp700', fill: C.text })}
-${t.text(`— ${q.phase}`, { x: 28 + t.measure(q.title, { style: 'disp700', size: 24 }) + 14, y: 73, size: 16, style: 'disp500', fill: C.muted })}
+${t.text(phase, { x: phaseX, y: 73, size: 16, style: 'disp500', fill: C.muted })}
 <clipPath id="nbar"><rect x="${W - 300}" y="54" width="250" height="8" rx="4"/></clipPath>
 <rect x="${W - 300}" y="54" width="250" height="8" rx="4" fill="${C.panel2}"/>
 <g clip-path="url(#nbar)"><rect x="${W - 300}" y="54" width="90" height="8" rx="4" fill="${C.amber}" class="seg"/></g>
@@ -218,115 +229,73 @@ ${t.text(stLabel, { x: w - 22, y: h - 30, size: 12, style: 'mono700', fill: st.c
 
 /* ---------- per-project mini animations (454 × 140) ---------- */
 const VISUALS = {
-  absensi(t) {
+  medicare(t) {
+    // a prescription is screened → a drug-drug interaction lights up → verdict
+    const med = (y, label, cls, col) => `<g class="${cls}">
+<rect x="18" y="${y}" width="152" height="30" rx="15" fill="${C.panel2}" stroke="${C.line2}"/>
+<circle cx="35" cy="${y + 15}" r="7" fill="${col}" fill-opacity=".22" stroke="${col}" stroke-width="1.5"/>
+${t.text(label, { x: 50, y: y + 20, size: 12, style: 'mono500', fill: C.text })}</g>`;
     const css = `
-@keyframes phA{0%,46%{opacity:1}50%,96%{opacity:0}100%{opacity:1}}
-@keyframes phB{0%,46%{opacity:0}50%,96%{opacity:1}100%{opacity:0}}
-@keyframes scanY{0%{transform:translateY(0)}50%{transform:translateY(112px)}100%{transform:translateY(0)}}
-@keyframes eyeBlink{0%,70%,76%,100%{transform:scaleY(1)}73%{transform:scaleY(.1)}}
-.pa{animation:phA 7s infinite}.pb{animation:phB 7s infinite}
-.sy{animation:scanY 3.5s ease-in-out infinite}
-.eb{transform-box:fill-box;transform-origin:center;animation:eyeBlink 7s infinite}`;
-    const face = (col) => `<circle cx="0" cy="-6" r="27" fill="#FDE9DF" opacity=".9"/><path d="M-30 -10C-32 -38 -10 -46 0 -46C14 -46 32 -38 30 -10L22 -20L14 -8L6 -24L-4 -10L-12 -24L-20 -8Z" fill="#1C2647"/>
-<path d="M-40 44C-38 26 -22 20 0 20C22 20 38 26 40 44Z" fill="#212838"/>
-<g class="${col === 'live' ? 'eb' : ''}"><ellipse cx="-10" cy="-2" rx="3.5" ry="4.5" fill="#123E6B"/><ellipse cx="10" cy="-2" rx="3.5" ry="4.5" fill="#123E6B"/></g>
-<path d="M-5 10Q0 14 5 10" stroke="#B04E6B" stroke-width="2" stroke-linecap="round"/>`;
-    const row = (k, v, y, c) => t.text(k, { x: 214, y, size: 12, style: 'mono500', fill: C.dim }) + t.text(v, { x: 306, y, size: 12, style: 'mono700', fill: c });
+@keyframes mdA{0%,8%{opacity:0;transform:translateX(-16px)}16%,86%{opacity:1;transform:none}94%,100%{opacity:0}}
+@keyframes mdB{0%,24%{opacity:0;transform:translateX(-16px)}32%,86%{opacity:1;transform:none}94%,100%{opacity:0}}
+@keyframes mdScan{0%{transform:translateX(0)}50%{transform:translateX(146px)}100%{transform:translateX(0)}}
+@keyframes mdHit{0%,44%{opacity:0;transform:scale(.5)}50%,60%{opacity:1;transform:scale(1)}68%,100%{opacity:0}}
+@keyframes mdBar{0%,54%{transform:scaleX(0)}70%,86%{transform:scaleX(.68)}92%,100%{transform:scaleX(0)}}
+@keyframes mdV{0%,58%{opacity:0}64%,86%{opacity:1}92%,100%{opacity:0}}
+.mdA{animation:mdA 7s infinite both}.mdB{animation:mdB 7s infinite both}
+.mdS{animation:mdScan 3.2s ease-in-out infinite}
+.mdH{transform-box:fill-box;transform-origin:center;animation:mdHit 7s infinite both}
+.mdBar{transform-box:fill-box;transform-origin:left;animation:mdBar 7s cubic-bezier(.2,.7,.2,1) infinite}
+.mdV{animation:mdV 7s infinite both}`;
     const svg = `
-<g class="pa"><g transform="translate(100 72) rotate(-6)"><rect x="-46" y="-56" width="92" height="104" rx="4" fill="#E9EEF7"/><rect x="-40" y="-50" width="80" height="92" fill="#2B3346"/><g transform="scale(.85)">${face('photo')}</g></g>
-  <rect x="44" y="14" width="112" height="112" rx="4" stroke="${C.red}" stroke-width="2" stroke-dasharray="6 4"/>
-  ${chip(t, { x: 52, y: 4, label: 'SPOOF ✗', color: C.red, size: 10, h: 20, padX: 8 }).svg}
-  ${row('EAR', '0.29 → 0.29', 36, C.text)}${row('motion', 'none', 58, C.text)}${row('texture', 'printed', 80, C.red)}${row('verdict', 'REJECTED', 112, C.red)}</g>
-<g class="pb"><g transform="translate(100 74)">${face('live')}</g>
-  <rect x="44" y="14" width="112" height="112" rx="4" stroke="${C.green}" stroke-width="2"/>
-  ${[[86, 70], [114, 70], [100, 84], [92, 92], [108, 92], [76, 60], [124, 60], [100, 54]].map(([x, y]) => `<circle cx="${x}" cy="${y}" r="1.8" fill="${C.green}"/>`).join('')}
-  ${chip(t, { x: 52, y: 4, label: 'LIVE ✓', color: C.green, size: 10, h: 20, padX: 8 }).svg}
-  ${row('EAR', '0.29 → 0.07', 36, C.text)}${row('motion', 'head yaw 4°', 58, C.text)}${row('texture', 'real skin', 80, C.green)}${row('verdict', 'PRESENT ✓', 112, C.green)}</g>
-<g class="sy"><rect x="40" y="12" width="120" height="2" fill="${C.cyan}" opacity=".8"/></g>
-<path d="M196 18V122" stroke="${C.line2}"/>`;
-    return { css, svg };
-  },
-
-  cms(t) {
-    const css = `
-@keyframes blk{0%,6%{opacity:0;transform:translateY(10px)}14%,88%{opacity:1;transform:none}96%,100%{opacity:0}}
-@keyframes cur{0%,30%{transform:translate(250px,120px)}52%,62%{transform:translate(384px,22px)}80%,100%{transform:translate(300px,96px)}}
-@keyframes clk{0%,54%{opacity:0;transform:scale(.4)}57%{opacity:.9}66%,100%{opacity:0;transform:scale(1.8)}}
-@keyframes toast{0%,58%{opacity:0;transform:translateY(-10px)}63%,90%{opacity:1;transform:none}96%,100%{opacity:0}}
-.b{animation:blk 7s infinite both}.cur{animation:cur 7s cubic-bezier(.5,0,.3,1) infinite}
-.clk{transform-box:fill-box;transform-origin:center;animation:clk 7s infinite}.toast{animation:toast 7s infinite}`;
-    const b = (d, inner) => `<g class="b" style="animation-delay:${d}s">${inner}</g>`;
-    const svg = `
-<rect x="14" y="12" width="426" height="118" rx="8" fill="${C.void}" stroke="${C.line2}"/>
-<rect x="14" y="12" width="70" height="118" rx="8" fill="${C.panel2}"/>
-${[30, 46, 62, 78].map((y, i) => `<rect x="24" y="${y}" width="${i === 1 ? 46 : 36}" height="6" rx="3" fill="${i === 1 ? C.cyan : C.line2}"/>`).join('')}
-<rect x="352" y="18" width="78" height="20" rx="6" fill="${C.cyan}" fill-opacity=".15" stroke="${C.cyan}" stroke-opacity=".6"/>
-${t.text('PUBLISH', { x: 391, y: 32, size: 10, style: 'mono700', fill: C.cyan, anchor: 'middle', ls: 1 })}
-${b(0, `<rect x="96" y="46" width="334" height="34" rx="6" fill="${C.cyan}" fill-opacity=".1" stroke="${C.cyan}" stroke-opacity=".3"/><rect x="108" y="56" width="120" height="7" rx="3.5" fill="${C.text}" opacity=".8"/><rect x="108" y="68" width="80" height="5" rx="2.5" fill="${C.muted}"/>`)}
-${b(0.25, `<rect x="96" y="86" width="104" height="36" rx="6" fill="${C.panel2}" stroke="${C.line2}"/><rect x="104" y="96" width="50" height="5" rx="2.5" fill="${C.muted}"/>`)}
-${b(0.45, `<rect x="210" y="86" width="104" height="36" rx="6" fill="${C.panel2}" stroke="${C.line2}"/><rect x="218" y="96" width="60" height="5" rx="2.5" fill="${C.muted}"/>`)}
-${b(0.65, `<rect x="324" y="86" width="106" height="36" rx="6" fill="${C.panel2}" stroke="${C.line2}"/><rect x="332" y="96" width="40" height="5" rx="2.5" fill="${C.muted}"/>`)}
-<g class="toast"><rect x="96" y="18" width="150" height="22" rx="6" fill="${C.green}" fill-opacity=".15" stroke="${C.green}" stroke-opacity=".6"/>${t.text('✓ page published', { x: 106, y: 33, size: 11, style: 'mono700', fill: C.green })}</g>
-<g class="cur"><circle cx="6" cy="6" r="12" stroke="${C.cyan}" stroke-width="2" class="clk"/><path d="M0 0L0 17L4.5 12.5L8 20L11 18.6L7.6 11.4L13.5 11.4Z" fill="${C.text}" stroke="${C.void}" stroke-width="1.2"/></g>`;
-    return { css, svg };
-  },
-
-  ai(t) {
-    const css = `
-@keyframes nodeP{0%,100%{opacity:.45}50%{opacity:1}}
-@keyframes draw{0%,20%{stroke-dashoffset:60}45%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:0;opacity:0}}
-@keyframes cur2{0%,100%{transform:scale(1);opacity:.9}50%{transform:scale(1.35);opacity:.3}}
-.np{animation:nodeP 2.4s ease-in-out infinite}.dr{stroke-dasharray:60;animation:draw 5s ease-in-out infinite}
-.cr{transform-box:fill-box;transform-origin:center;animation:cur2 1.6s ease-in-out infinite}`;
-    const cols = [[40, [34, 70, 106]], [104, [22, 54, 86, 118]], [168, [34, 70, 106]]];
-    let edges = '', pulses = '', k = 0;
-    for (let c = 0; c < 2; c++) for (const y1 of cols[c][1]) for (const y2 of cols[c + 1][1]) {
-      const d = `M${cols[c][0]} ${y1}L${cols[c + 1][0]} ${y2}`;
-      edges += `<path d="${d}" stroke="${C.line2}" stroke-width="1"/>`;
-      if ((k++ * 7) % 5 === 0) pulses += `<circle r="2.6" fill="${k % 3 ? C.cyan : C.sakura}"><animateMotion dur="1.6s" begin="${((k * 0.37) % 1.6).toFixed(2)}s" repeatCount="indefinite" path="${d}"/></circle>`;
-    }
-    const nodes = cols.flatMap(([x, ys], ci) => ys.map((y, i) => `<circle cx="${x}" cy="${y}" r="7" fill="${C.panel2}" stroke="${C.cyan}" stroke-width="1.6" class="np" style="animation-delay:${(ci * 0.4 + i * 0.2).toFixed(1)}s"/>`)).join('');
-    const L = [[240, 98, 'done'], [290, 52, 'done'], [340, 92, 'cur'], [392, 46, 'lock'], [430, 100, 'lock']];
-    const path = L.map(([x, y], i) => (i ? 'L' : 'M') + x + ' ' + y).join('');
-    const lnodes = L.map(([x, y, s], i) => s === 'done'
-      ? `<circle cx="${x}" cy="${y}" r="9" fill="${C.green}" fill-opacity=".2" stroke="${C.green}" stroke-width="1.8"/>${t.text('✓', { x: x - 4.2, y: y + 4.5, size: 12, style: 'mono700', fill: C.green })}`
-      : s === 'cur'
-        ? `<circle cx="${x}" cy="${y}" r="15" stroke="${C.amber}" stroke-width="1.5" class="cr"/><circle cx="${x}" cy="${y}" r="9" fill="${C.amber}" fill-opacity=".25" stroke="${C.amber}" stroke-width="2"/>`
-        : `<circle cx="${x}" cy="${y}" r="8" fill="${C.panel2}" stroke="${C.dim}" stroke-width="1.5" stroke-dasharray="3 3"/>`).join('');
-    const svg = `
-${edges}${pulses}${nodes}
+${med(24, 'amoxicillin', 'mdA', C.cyan)}
+${med(66, 'warfarin', 'mdB', C.sakura)}
+<g class="mdH">${chip(t, { x: 84, y: 45, label: 'DDI', color: C.red, size: 10, h: 22, padX: 9 }).svg}</g>
+<g class="mdS"><rect x="18" y="14" width="152" height="2" fill="${C.cyan}" opacity=".7"/></g>
 <path d="M196 18V122" stroke="${C.line2}"/>
-<path d="${path}" stroke="${C.line2}" stroke-width="2" stroke-dasharray="4 4"/>
-<path d="M340 92Q372 128 430 100" stroke="${C.amber}" stroke-width="2" class="dr" fill="none"/>
-${lnodes}
-<rect x="214" y="12" width="128" height="20" rx="5" fill="${C.void}" stroke="${C.line2}"/>
-${t.text('tutor → see p. 14', { x: 222, y: 26, size: 10.5, style: 'mono500', fill: C.amber })}`;
+${t.text('INTERACTION ENGINE', { x: 214, y: 34, size: 10, style: 'mono700', fill: C.dim, ls: 1.5 })}
+<rect x="214" y="44" width="220" height="10" rx="5" fill="${C.void}"/>
+<rect x="214" y="44" width="220" height="10" rx="5" fill="${C.amber}" class="mdBar"/>
+<g class="mdV">${t.text('severity · moderate', { x: 434, y: 74, size: 12, style: 'mono700', fill: C.amber, anchor: 'end' })}</g>
+${t.text('MATCHED RULES', { x: 214, y: 90, size: 10, style: 'mono700', fill: C.dim, ls: 1.5 })}
+${['CYP2C9', 'BLEED', 'QT'].map((r, i) => `<g class="mdV" style="animation-delay:${(i * 0.12).toFixed(2)}s">${chip(t, { x: 214 + i * 74, y: 98, label: r, color: C.green, size: 11, h: 24, padX: 12 }).svg}</g>`).join('')}`;
     return { css, svg };
   },
 
-  diagnova(t) {
-    // symptoms tick in → certainty factor fills → the rules that fired light up
-    const sym = ['ear pain', 'blocked nose', 'sore throat', 'mild fever'];
-    const kf = (name, on) => `@keyframes ${name}{0%,${on}%{opacity:0}${on + 3}%,90%{opacity:1}95%,100%{opacity:0}}`;
-    const css = sym.map((_, i) => kf(`dk${i}`, 6 + i * 11)).join('') + ['r0', 'r1', 'r2'].map((n, i) => kf(`d${n}`, 66 + i * 5)).join('') + `
-@keyframes dcf{0%,52%{transform:scaleX(0)}66%,90%{transform:scaleX(.86)}95%,100%{transform:scaleX(0)}}
-@keyframes dval{0%,64%{opacity:0}67%,90%{opacity:1}95%,100%{opacity:0}}
-.cf{transform-box:fill-box;transform-origin:left;animation:dcf 7s cubic-bezier(.2,.7,.2,1) infinite}`;
-    const rows = sym.map((label, i) => {
-      const y = 22 + i * 26;
-      return `<rect x="18" y="${y}" width="14" height="14" rx="3" stroke="${C.line2}" stroke-width="1.5"/>
-<g style="animation:dk${i} 7s infinite">${t.text('✓', { x: 19.5, y: y + 12, size: 13, style: 'mono700', fill: C.green })}</g>
-${t.text(label, { x: 42, y: y + 12, size: 12, style: 'mono500', fill: C.muted })}`;
+  laptopfinder(t) {
+    // weighted criteria grow → the SAW score ranks the shortlist
+    const crit = [['RAM', 0.92, C.cyan], ['CPU', 0.8, C.cyan], ['SSD', 0.7, C.cyan], ['PRICE', 0.55, C.amber]];
+    const ranks = [['01', 'ThinkPad X1', 0.94], ['02', 'MacBook Air', 0.89], ['03', 'Zenbook 14', 0.83]];
+    const css = `
+@keyframes lfG{0%,10%{transform:scaleX(0)}30%,86%{transform:scaleX(1)}94%,100%{transform:scaleX(0)}}
+@keyframes lfR{0%,34%{opacity:0;transform:translateX(14px)}42%,86%{opacity:1;transform:none}94%,100%{opacity:0}}
+@keyframes lfWin{0%,60%{opacity:.25}68%,86%{opacity:1}92%,100%{opacity:.25}}
+.lfG{transform-box:fill-box;transform-origin:left;animation:lfG 7s cubic-bezier(.2,.7,.2,1) infinite}
+.lfR{animation:lfR 7s infinite both}
+.lfW{animation:lfWin 7s infinite}`;
+    const bars = crit.map(([k, v, c], i) => {
+      const y = 32 + i * 24;
+      return `<rect x="18" y="${y}" width="140" height="8" rx="4" fill="${C.void}"/>
+<rect x="18" y="${y}" width="${(140 * v).toFixed(0)}" height="8" rx="4" fill="${c}" class="lfG" style="animation-delay:${(i * 0.1).toFixed(2)}s"/>
+${t.text(k, { x: 166, y: y + 8, size: 11, style: 'mono500', fill: C.muted })}`;
+    }).join('');
+    const rows = ranks.map(([n, name, s], i) => {
+      const y = 34 + i * 30;
+      const col = i === 0 ? C.green : C.muted;
+      return `<g class="lfR" style="animation-delay:${(i * 0.2).toFixed(2)}s">
+<rect x="244" y="${y}" width="192" height="24" rx="7" fill="${C.panel2}" stroke="${i === 0 ? C.green : C.line2}"/>
+<circle cx="260" cy="${y + 12}" r="8" fill="${i === 0 ? C.green : C.line}" fill-opacity="${i === 0 ? '.2' : '1'}"/>
+${t.text(n, { x: 254, y: y + 16, size: 9, style: 'mono700', fill: col })}
+${t.text(name, { x: 278, y: y + 16, size: 12, style: 'mono500', fill: C.text })}
+${t.text(s.toFixed(2), { x: 428, y: y + 16, size: 11, style: 'mono700', fill: col, anchor: 'end' })}</g>`;
     }).join('');
     const svg = `
+${t.text('WEIGHTED CRITERIA', { x: 18, y: 20, size: 10, style: 'mono700', fill: C.dim, ls: 1.5 })}
+${bars}
+<path d="M226 18V122" stroke="${C.line2}"/>
+${t.text('RANKED SHORTLIST', { x: 244, y: 20, size: 10, style: 'mono700', fill: C.dim, ls: 1.5 })}
 ${rows}
-<path d="M196 18V122" stroke="${C.line2}"/>
-${t.text('CERTAINTY', { x: 214, y: 34, size: 10, style: 'mono700', fill: C.dim, ls: 1.5 })}
-<rect x="214" y="44" width="220" height="10" rx="5" fill="${C.void}"/>
-<rect x="214" y="44" width="220" height="10" rx="5" fill="${C.cyan}" class="cf"/>
-<g style="animation:dval 7s infinite">${t.text('CF 0.86', { x: 434, y: 74, size: 12, style: 'mono700', fill: C.cyan, anchor: 'end' })}</g>
-${t.text('RULES FIRED', { x: 214, y: 84, size: 10, style: 'mono700', fill: C.dim, ls: 1.5 })}
-${['R04', 'R12', 'R17'].map((r, i) => `<g style="animation:dr${i} 7s infinite">${chip(t, { x: 214 + i * 64, y: 94, label: r, color: C.green, size: 11, h: 24, padX: 12 }).svg}</g>`).join('')}`;
+<g class="lfW">${chip(t, { x: 244, y: 116, label: 'SAW SCORE', color: C.cyan, size: 10, h: 20, padX: 8 }).svg}</g>`;
     return { css, svg };
   },
 };
@@ -344,17 +313,17 @@ export function savePoint(cfg, stats) {
     ['QUESTS', `${cfg.projects.length} logged`],
     ['PLAYTIME', stats?.playtime || 'since day one'],
   ];
-  // a short platform for her to sit on — same tiles as the Unity scene
+  // a short platform for him to sit on — same tiles as the Unity scene
   const tiles = Array.from({ length: 5 }, (_, i) => `<rect x="${52 + i * 48}" y="${ledge}" width="48" height="22" fill="#2B3B6B"/><rect x="${52 + i * 48}" y="${ledge}" width="48" height="4" fill="${C.green}" opacity=".75"/><rect x="${60 + i * 48}" y="${ledge + 11}" width="8" height="5" fill="#22305A"/>`).join('');
   const body = `
 ${frame(t, { w: W, h, title: 'save.dat', tag: 'AUTOSAVE ✓', tagColor: C.green, gridId: 'sgrid' })}
 <g shape-rendering="crispEdges">${tiles}</g>
-<g transform="translate(78 ${ledge - LEDGE * PX})">${lumiPixel({ px: PX, pose: 'wave' })}</g>
+<g transform="translate(78 ${ledge - LEDGE * PX})">${bearPixel({ px: PX, pose: 'wave' })}</g>
 ${heading(t, { x: 360, y: 108, title: 'SAVE POINT', sub: "let's build something" })}
 ${wrap(t, 'Progress saved. If you have a project, a role, or just a cool idea — my inbox is the next level.', { size: 18, maxW: 590 }).map((l, i) => t.text(l, { x: 360, y: 148 + i * 27, size: 18, style: 'disp500', fill: C.text })).join('')}
 <rect x="360" y="${h - 100}" width="600" height="60" rx="12" fill="${C.panel}" stroke="${C.line2}"/>
 ${slot.map(([k, v], i) => `${t.text(k, { x: 378 + i * 148, y: h - 76, size: 10.5, style: 'mono700', fill: C.dim, ls: 2 })}${t.text(v, { x: 378 + i * 148, y: h - 54, size: 15, style: 'disp700', fill: i === 1 ? C.amber : C.text })}`).join('')}`;
-  return svgDoc({ w: W, h, title: 'Save point — contact', desc: 'Contact section. Lumi waves from a save platform — get in touch via the buttons below.', css: lumiPixelCss, defs: gridPattern('sgrid', 28), body, typo: t });
+  return svgDoc({ w: W, h, title: 'Save point — contact', desc: 'Contact section. Nouri waves from a save platform — get in touch via the buttons below.', css: bearPixelCss, defs: gridPattern('sgrid', 28), body, typo: t });
 }
 
 export function contactButton({ icon, label, sub }) {
@@ -371,7 +340,7 @@ ${ui('arrow', w - 40, 22, 20, C.muted)}`;
 }
 
 /* ------------------------------------------------------------------ */
-/* FOOTER — Lumi peeking (links to the secret)                         */
+/* FOOTER — Nouri peeking (links to the secret)                        */
 /* ------------------------------------------------------------------ */
 export function footer() {
   const t = new Typo('f');
@@ -380,13 +349,13 @@ export function footer() {
 <path d="M8 40H420M580 40H992" stroke="${C.line2}" stroke-dasharray="2 6"/>
 ${t.text('END OF TRANSMISSION', { x: 500, y: 45, size: 12, style: 'mono700', fill: C.dim, anchor: 'middle', ls: 3 })}
 <clipPath id="fclip"><rect x="0" y="0" width="${w}" height="${line}"/></clipPath>
-<g clip-path="url(#fclip)"><g transform="translate(856 ${line - 17 * PX})">${lumiPixel({ px: PX, crop: 'head' })}</g></g>
+<g clip-path="url(#fclip)"><g transform="translate(856 ${line - 17 * PX})">${bearPixel({ px: PX, crop: 'head' })}</g></g>
 <path d="M640 ${line}H992" stroke="${C.line2}" stroke-width="1.5"/>`;
-  return svgDoc({ w, h, title: 'End of transmission', desc: 'Something is peeking from the corner…', css: lumiPixelCss, body, typo: t });
+  return svgDoc({ w, h, title: 'End of transmission', desc: 'Something is peeking from the corner…', css: bearPixelCss, body, typo: t });
 }
 
 /* ------------------------------------------------------------------ */
-/* SECRET — 404 page for whoever clicks the peeking Lumi               */
+/* SECRET — 404 page for whoever clicks the peeking Nouri              */
 /* ------------------------------------------------------------------ */
 export function secretCard() {
   const t = new Typo('z');
@@ -394,15 +363,15 @@ export function secretCard() {
   const css = `@keyframes g1{0%,86%,100%{transform:translate(0);opacity:0}88%{transform:translate(-8px,2px);opacity:.8}92%{transform:translate(6px,-2px);opacity:.6}}`;
   const by = 300, size = 170;
   const big = (fill) => t.text('404', { x: 48, y: by, size, style: 'disp700', fill, ls: 4 });
-  const top = Math.round(by - size * 0.7); // cap height: she sits on top of the zero
+  const top = Math.round(by - size * 0.7); // cap height: he sits on top of the zero
   const body = `
 ${frame(t, { w: W, h, title: 'secret.md', tag: 'ACCESS GRANTED', tagColor: C.sakura, accent: C.sakura, gridId: 'zgrid' })}
 <g style="animation:g1 4s infinite" class="a">${big(C.cyan)}</g>
 <g style="animation:g1 4s .08s infinite" class="a">${big(C.sakura)}</g>
 ${big(C.text)}
-<g transform="translate(150 ${top - LEDGE * PX})">${lumiPixel({ px: PX })}</g>
+<g transform="translate(150 ${top - LEDGE * PX})">${bearPixel({ px: PX })}</g>
 ${t.text('QUEST NOT FOUND', { x: 470, y: 176, size: 34, style: 'disp700', fill: C.text, ls: 1 })}
 ${t.text('…but you found me.', { x: 470, y: 214, size: 22, style: 'disp500', fill: C.muted })}
 ${chip(t, { x: 470, y: 240, label: '★ ACHIEVEMENT UNLOCKED · CURIOUS CAT', color: C.amber, size: 12, h: 30, padX: 14 }).svg}`;
-  return svgDoc({ w: W, h, title: '404 — quest not found', desc: 'A hidden page. Lumi sits on the 404. Achievement unlocked: Curious Cat.', css: css + lumiPixelCss, defs: gridPattern('zgrid', 28), body, typo: t });
+  return svgDoc({ w: W, h, title: '404 — quest not found', desc: 'A hidden page. Nouri sits on the 404. Achievement unlocked: Curious Cat.', css: css + bearPixelCss, defs: gridPattern('zgrid', 28), body, typo: t });
 }

@@ -1,90 +1,66 @@
 {
-  "name": "Fahren",
-  "username": "Renkaslana",
-  "role": "Full Stack Developer",
-  "focus": "Computer Vision",
-  "tagline": "Booting ideas into production.",
+  "name": "Muhammad Affif",
+  "username": "Nourivex",
+  "role": "Backend Systems Engineer",
+  "focus": "Cloud Architecture & Agentic Workflows",
+  "tagline": "Booting services into production.",
   "timezone": "Asia/Jakarta",
   "tzLabel": "UTC+7",
   "nightHours": { "from": 22, "to": 6 },
 
   "links": {
-    "email": "kevinkaslana002@gmail.com",
+    "email": "muhammad321afiff@gmail.com",
     "linkedin": "",
     "portfolio": ""
   },
 
   "about": {
-    "bio": "I build full stack web apps and computer-vision systems — from face recognition with blink-based liveness checks to CMS dashboards and AI study tools.",
-    "class": "Full Stack Developer",
-    "subclass": "Computer Vision",
-    "main": "Next.js · FastAPI",
-    "learning": "Unity · C#",
+    "bio": "I build backend systems and cloud-native services — APIs, data layers and agentic workflows that stay reliable once real traffic shows up.",
+    "class": "Backend Systems Engineer",
+    "subclass": "Cloud Architecture",
+    "main": "Go · Node.js · Express",
+    "learning": "Agentic Workflows",
     "status": "Open to collaborate",
-    "base": "Semarang · UTC+7"
+    "base": "Indonesia · UTC+7"
   },
 
   "currentQuest": {
-    "title": "Ruang Belajar",
-    "phase": "pre-alpha · an AI tutor that cites the page, slide and minute"
+    "title": "MediCare-Bridge",
+    "phase": "in development · a DDI checker engine that guards prescriptions"
   },
 
   "stack": [
-    { "slot": "FRONTEND", "rank": "MAIN", "items": ["nextdotjs", "react", "typescript", "tailwindcss"] },
-    { "slot": "BACKEND", "rank": "MAIN", "items": ["fastapi", "python", "postgresql", "supabase"] },
-    { "slot": "AI · VISION", "rank": "SPECIAL", "items": ["opencv", "mediapipe", "Face Recognition", "googlegemini"] },
-    { "slot": "MOBILE", "rank": "SIDE", "items": ["kotlin", "android"] },
-    { "slot": "NEXT UP", "rank": "LEARNING", "items": ["unity", "C#"] }
+    { "slot": "BACKEND", "rank": "MAIN", "items": ["go", "nodedotjs", "express", "postgresql"] },
+    { "slot": "DATA · CACHE", "rank": "MAIN", "items": ["mysql", "redis", "prisma", "typescript"] },
+    { "slot": "DEVOPS", "rank": "MAIN", "items": ["docker", "git", "linux", "github"] },
+    { "slot": "LANGUAGES", "rank": "SIDE", "items": ["python", "flutter"] },
+    { "slot": "ENVIRONMENT", "rank": "MAIN", "items": ["fedora"] }
   ],
 
   "projects": [
     {
-      "key": "absensi",
+      "key": "medicare",
       "quest": "QUEST 01",
       "type": "MAIN",
-      "title": "Smart Absensi",
-      "summary": "School attendance by face recognition, guarded by liveness detection.",
-      "boss": "Photo & video replay spoofing",
-      "win": "beaten by EAR blink check + 468-pt face mesh",
-      "tech": ["React", "FastAPI", "OpenCV", "MediaPipe"],
-      "status": "COMPLETE",
-      "repo": "smart_absensi"
+      "title": "MediCare-Bridge",
+      "summary": "Cross-platform medication safety: a drug-drug interaction checker for prescriptions.",
+      "boss": "Silent drug-drug interactions",
+      "win": "beaten by a DDI checker engine",
+      "tech": ["Node.js", "Express", "Prisma", "PostgreSQL", "Flutter"],
+      "status": "IN PROGRESS",
+      "repo": "MediCare-Bridge"
     },
     {
-      "key": "cms",
+      "key": "laptopfinder",
       "quest": "QUEST 02",
       "type": "MAIN",
-      "title": "Company Profile CMS",
-      "summary": "Company site + internal CMS for PT Bintang Mulia Investama.",
-      "boss": "Every content change needed a developer",
-      "win": "beaten by an /admin CMS with RBAC + audit log",
-      "tech": ["Next.js", "TypeScript", "Prisma", "PostgreSQL"],
+      "title": "LaptopFinder Engine",
+      "summary": "Decision support platform that ranks laptops with weighted criteria.",
+      "boss": "Spec sheets nobody can compare",
+      "win": "beaten by a SAW-weighted matrix",
+      "tech": ["Node.js", "SAW", "Next.js", "PostgreSQL"],
       "status": "IN PROGRESS",
-      "repo": "CompanyProfile"
-    },
-    {
-      "key": "ai",
-      "quest": "QUEST 03",
-      "type": "MAIN",
-      "title": "Ruang Belajar",
-      "summary": "Upload your material, get a private class: chapters, quizzes, a tutor.",
-      "boss": "AI answers you can't verify",
-      "win": "fighting with RAG citations per page & slide",
-      "tech": ["Next.js", "Supabase", "Gemini", "RAG"],
-      "status": "IN PROGRESS",
-      "repo": "Ruang_belajar"
-    },
-    {
-      "key": "diagnova",
-      "quest": "QUEST 04",
-      "type": "MAIN",
-      "title": "Diagnova",
-      "summary": "Expert system for ENT pre-consultation, Certainty Factor based.",
-      "boss": "Black-box diagnoses nobody can trust",
-      "win": "every result traces back to its rules",
-      "tech": ["TypeScript", "Certainty Factor", "83 tests"],
-      "status": "IN PROGRESS",
-      "repo": "expert_systemTHT"
+      "repo": "LaptopFinder"
     }
   ]
 }

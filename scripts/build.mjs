@@ -1,6 +1,6 @@
 // Renders every asset + README.md from profile.config.json (+ data/stats.json when present).
 //   node scripts/build.mjs            → picks day/night from the configured timezone
-//   LUMEN_MODE=night node scripts/build.mjs
+//   NOURI_MODE=night node scripts/build.mjs
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { buildHero } from './lib/hero.mjs';
 import { DOCK, dockButton, aboutCard, loadoutCard, nowRunning, questHeader, questCard, savePoint, contactButton, footer, secretCard } from './lib/sections.mjs';
@@ -18,7 +18,7 @@ const out = (name, svg) => { writeFileSync(new URL(`assets/${name}`, root), svg)
 // ---------- hero (day / night in the owner's timezone) ----------
 const hour = +new Intl.DateTimeFormat('en-GB', { hour: 'numeric', hourCycle: 'h23', timeZone: cfg.timezone }).format(new Date());
 const { from, to } = cfg.nightHours;
-const isNight = process.env.LUMEN_MODE ? process.env.LUMEN_MODE === 'night' : from > to ? hour >= from || hour < to : hour >= from && hour < to;
+const isNight = process.env.NOURI_MODE ? process.env.NOURI_MODE === 'night' : from > to ? hour >= from || hour < to : hour >= from && hour < to;
 const heroDay = buildHero(cfg, { mode: 'day', level: stats.level });
 const heroNight = buildHero(cfg, { mode: 'night', level: stats.level });
 out('hero-day.svg', heroDay);
@@ -47,6 +47,7 @@ out('secret.svg', secretCard());
 
 // ---------- README ----------
 const gh = `https://github.com/${cfg.username}`;
+const host = cfg.username.toLowerCase();
 const img = (src, alt, extra = '') => `<img src="assets/${src}" width="100%" alt="${alt.replace(/"/g, '&quot;')}"${extra}>`;
 const pair = (a, b) => `<p align="center">\n${[a, b].filter(Boolean).map((p) => `  <a href="${gh}/${p.repo}"><img src="assets/quest-${p.key}.svg" width="49%" alt="${p.quest}: ${p.title} — ${p.summary}"></a>`).join('\n')}\n</p>`;
 const projects = cfg.projects;
@@ -55,15 +56,15 @@ for (let i = 0; i < projects.length; i += 2) rows.push(pair(projects[i], project
 
 const readme = `<!--
         ╭──────────────╮
-        │  ◕ ‿ ◕   ▍   │   oh, hi. you opened the source.
-        ╰──────┬───────╯   lumi noticed.
+        │  ʕ•ᴥ•ʔ  ▍   │   oh, hi. you opened the source.
+        ╰──────┬───────╯   nouri noticed.
                │
    ACHIEVEMENT UNLOCKED · SOURCE READER
 
    how the level works (no fake numbers):
      xp    = lifetime_contributions × 10 + stars × 50
      level = floor( sqrt(xp / 100) ) + 1
-   refreshed daily by .github/workflows/lumen.yml
+   refreshed daily by .github/workflows/nourivex.yml
 
    this file is generated — edit profile.config.json, then run: node scripts/build.mjs
 -->
@@ -71,7 +72,7 @@ const readme = `<!--
 <a name="top"></a>
 
 <div align="center">
-  ${img('hero.svg', `${cfg.name} — ${cfg.role} · ${cfg.focus}. ${cfg.tagline}`, ' title="Lumi: psst… there&#39;s a terminal at the very bottom."')}
+  ${img('hero.svg', `${cfg.name} — ${cfg.role} · ${cfg.focus}. ${cfg.tagline}`, ' title="Nouri: psst… there&#39;s a terminal at the very bottom."')}
 </div>
 
 <p align="center">
@@ -79,8 +80,8 @@ ${DOCK.map((d) => `  <a href="#${d.key}"><img src="assets/dock-${d.key}.svg" wid
 </p>
 
 <p align="center">
-  <b>${cfg.role}</b> from ${cfg.about.base?.split(' ·')[0] || 'Indonesia'}, building web apps and computer-vision systems.<br>
-  <sub>${cfg.about.main} · ${cfg.focus} · currently learning ${cfg.about.learning}</sub>
+  <b>${cfg.role}</b> from ${cfg.about.base?.split(' ·')[0] || 'Indonesia'} — ${cfg.tagline}<br>
+  <sub>${cfg.about.main} · ${cfg.focus} · ${cfg.about.status}</sub>
 </p>
 
 <a name="about"></a>
@@ -121,23 +122,23 @@ ${CONTACTS.map((c) => `  <a href="${c.href(cfg.links[c.key])}"><img src="assets/
 <summary><code>$ open terminal</code></summary>
 
 \`\`\`console
-lumen@${cfg.name.toLowerCase()}:~$ whoami
-${cfg.name.toLowerCase()} — ${cfg.role.toLowerCase()} · ${cfg.focus.toLowerCase()}
+nouri@${host}:~$ whoami
+${cfg.name} — ${cfg.role} · ${cfg.focus}
 
-lumen@${cfg.name.toLowerCase()}:~$ cat lumi.txt
-L.U.M.I  =  Liveness & Utility Monitoring Interface
-role     :  companion. keeps builds green, judges variable names.
+nouri@${host}:~$ cat nouri.txt
+N.O.U.R.I  =  Node Observability & Uptime Runtime Interface
+role     :  companion. keeps builds green, guards the p99.
 uptime   :  awake by day, asleep after ${String(from).padStart(2, '0')}:00 (${cfg.tzLabel})
 
-lumen@${cfg.name.toLowerCase()}:~$ ls ./secrets
-SECRET.md   lumi_sleep_schedule.txt   tabs_vs_spaces.verdict
+nouri@${host}:~$ ls ./secrets
+SECRET.md   nouri_sleep_schedule.txt   tabs_vs_spaces.verdict
 
-lumen@${cfg.name.toLowerCase()}:~$ sudo hire ${cfg.name.toLowerCase()}
+nouri@${host}:~$ sudo hire ${host}
 [sudo] password for recruiter: ********
 ✓ permission granted — head back up to the SAVE POINT
 
-lumen@${cfg.name.toLowerCase()}:~$ exit
-lumi: bye-bye! visit at night — you might catch me sleeping.
+nouri@${host}:~$ exit
+nouri: take care! visit at night — you might catch me hibernating.
 \`\`\`
 
 <kbd>↑</kbd> <kbd>↑</kbd> <kbd>↓</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> <kbd>←</kbd> <kbd>→</kbd> <kbd>B</kbd> <kbd>A</kbd>
@@ -149,22 +150,22 @@ lumi: bye-bye! visit at night — you might catch me sleeping.
 `;
 writeFileSync(new URL('README.md', root), readme);
 
-// ---------- SECRET.md (the peeking Lumi links here) ----------
+// ---------- SECRET.md (the peeking Nouri links here) ----------
 writeFileSync(new URL('SECRET.md', root), `<div align="center">
 
 <img src="assets/secret.svg" width="100%" alt="404 — quest not found. Achievement unlocked: Curious Cat.">
 
 </div>
 
-### \`lumi_profile.txt\`
+### \`nouri_profile.txt\`
 
 | | |
 |---|---|
-| **name** | L.U.M.I — Liveness & Utility Monitoring Interface |
-| **named after** | *luminance*, the Y channel every face detector looks at first |
+| **name** | N.O.U.R.I — Node Observability & Uptime Runtime Interface |
+| **named after** | Nourivex — and the polar bear that guards late-night deploys |
 | **job** | companion process for [${cfg.name}](${gh}) · keeps builds green |
-| **likes** | clean diffs, green checks, 60 fps camera feeds |
-| **dislikes** | merge conflicts, printed-photo spoofing, \`TODO: fix later\` |
+| **likes** | clean diffs, green checks, a p99 under budget |
+| **dislikes** | merge conflicts, unindexed queries, \`TODO: fix later\` |
 | **sleeps** | ${String(from).padStart(2, '0')}:00 – ${String(to).padStart(2, '0')}:00 ${cfg.tzLabel} (the boot screen really changes — check back at night) |
 
 > you clicked the thing in the corner. that's exactly the kind of curiosity ${cfg.name} looks for in a teammate.

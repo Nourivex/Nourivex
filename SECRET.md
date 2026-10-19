@@ -4,18 +4,18 @@
 
 </div>
 
-### `lumi_profile.txt`
+### `nouri_profile.txt`
 
 | | |
 |---|---|
-| **name** | L.U.M.I — Liveness & Utility Monitoring Interface |
-| **named after** | *luminance*, the Y channel every face detector looks at first |
-| **job** | companion process for [Fahren](https://github.com/Renkaslana) · keeps builds green |
-| **likes** | clean diffs, green checks, 60 fps camera feeds |
-| **dislikes** | merge conflicts, printed-photo spoofing, `TODO: fix later` |
+| **name** | N.O.U.R.I — Node Observability & Uptime Runtime Interface |
+| **named after** | Nourivex — and the polar bear that guards late-night deploys |
+| **job** | companion process for [Muhammad Affif](https://github.com/Nourivex) · keeps builds green |
+| **likes** | clean diffs, green checks, a p99 under budget |
+| **dislikes** | merge conflicts, unindexed queries, `TODO: fix later` |
 | **sleeps** | 22:00 – 06:00 UTC+7 (the boot screen really changes — check back at night) |
 
-> you clicked the thing in the corner. that's exactly the kind of curiosity Fahren looks for in a teammate.
+> you clicked the thing in the corner. that's exactly the kind of curiosity Muhammad Affif looks for in a teammate.
 > now go back and press the save point button. ✦
 
-<p align="right"><a href="https://github.com/Renkaslana"><sub>◂ back to the profile</sub></a></p>
+<p align="right"><a href="https://github.com/Nourivex"><sub>◂ back to the profile</sub></a></p>

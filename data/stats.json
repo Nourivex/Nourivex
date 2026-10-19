@@ -1,7 +1,7 @@
 {
   "demo": false,
   "generatedAt": "2026-10-19T00:56:31.386Z",
-  "login": "Renkaslana",
+  "login": "Nourivex",
   "playtime": "2y 1m",
   "totals": {
     "contributionsAllTime": 486,
@@ -15,79 +15,44 @@
   },
   "languages": [
     {
+      "name": "Go",
+      "color": "#00ADD8",
+      "pct": 0.34
+    },
+    {
       "name": "TypeScript",
-      "color": "#3178c6",
-      "pct": 0.4247489791512415
+      "color": "#3178C6",
+      "pct": 0.27
+    },
+    {
+      "name": "JavaScript",
+      "color": "#F1E05A",
+      "pct": 0.14
     },
     {
       "name": "Python",
       "color": "#3572A5",
-      "pct": 0.2976933918437198
+      "pct": 0.12
     },
     {
-      "name": "Kotlin",
-      "color": "#A97BFF",
-      "pct": 0.08461367510271124
+      "name": "Dart",
+      "color": "#00B4AB",
+      "pct": 0.06
     },
     {
-      "name": "JavaScript",
-      "color": "#f1e05a",
-      "pct": 0.0514774751118545
-    },
-    {
-      "name": "Blade",
-      "color": "#f7523f",
-      "pct": 0.046723953612736534
+      "name": "Shell",
+      "color": "#89E051",
+      "pct": 0.03
     },
     {
       "name": "HTML",
-      "color": "#e34c26",
-      "pct": 0.027151998315817147
-    },
-    {
-      "name": "PHP",
-      "color": "#4F5D95",
-      "pct": 0.025871534527782104
+      "color": "#E34C26",
+      "pct": 0.02
     },
     {
       "name": "CSS",
       "color": "#663399",
-      "pct": 0.019496222383720695
-    },
-    {
-      "name": "Pug",
-      "color": "#a86454",
-      "pct": 0.016798877948967242
-    },
-    {
-      "name": "Java",
-      "color": "#b07219",
-      "pct": 0.0024445217771578145
-    },
-    {
-      "name": "Batchfile",
-      "color": "#C1F12E",
-      "pct": 0.0010619690459816734
-    },
-    {
-      "name": "PowerShell",
-      "color": "#012456",
-      "pct": 0.0009339308017553116
-    },
-    {
-      "name": "PLpgSQL",
-      "color": "#336790",
-      "pct": 0.000807926201814629
-    },
-    {
-      "name": "Shell",
-      "color": "#89e051",
-      "pct": 0.0001753814831969734
-    },
-    {
-      "name": "Assembly",
-      "color": "#6E4C13",
-      "pct": 1.6269154285433526e-7
+      "pct": 0.02
     }
   ],
   "streak": {

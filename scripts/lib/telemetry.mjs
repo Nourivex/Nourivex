@@ -1,7 +1,7 @@
 // SYSTEM MONITOR — renders data/stats.json into stats / activity / achievements SVGs.
 import { Typo } from './text.mjs';
 import { C, svgDoc, gridPattern, frame } from './theme.mjs';
-import { lumiTiny, tinyCss } from './pixel-lumi.mjs';
+import { bearTiny, tinyCss } from './pixel-bear.mjs';
 
 const W = 1000;
 const fmt = (n) => Number(n || 0).toLocaleString('en-US');
@@ -121,7 +121,7 @@ ${months.map(({ i, m }) => t.text(m.toUpperCase(), { x: x0 + i * step, y: base +
   <path d="M${px.toFixed(1)} ${(py - 32).toFixed(1)}h16l-5 6 5 6h-16Z" fill="${C.amber}"/>
   ${t.text(`PEAK ${weeks[peakI].count}`, { x: px + (px > W - 140 ? -8 : 24), y: py - 23, size: 11, style: 'mono700', fill: C.amber, anchor: px > W - 140 ? 'end' : 'start', ls: 1 })}
 </g>
-<g>${lumiTiny(3)}<animateMotion dur="18s" repeatCount="indefinite" path="${walkPath}" begin="1.4s"/></g>`;
+<g>${bearTiny(3)}<animateMotion dur="18s" repeatCount="indefinite" path="${walkPath}" begin="1.4s"/></g>`;
   return svgDoc({
     w: W, h,
     title: 'Activity terrain — last 26 weeks',
