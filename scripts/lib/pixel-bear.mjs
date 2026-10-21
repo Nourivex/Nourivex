@@ -15,24 +15,27 @@ const HY = 2; // head vertical offset inside the grid
 
 export const PAL = {
   o: '#0B1220', // outline (obsidian)
-  W: '#FFFFFF', // fur highlight (snow)
-  F: '#F8FAFC', // fur base (snow)
-  f: '#E2E8F0', // fur shade / muzzle / ear inner (soft pastel)
-  s: '#CBD5E1', // fur shade 2 (ice grey)
-  d: '#94A3B8', // fur deep shade (cool grey)
-  n: '#0F172A', // nose, mouth, visor glass (dark charcoal)
-  v: '#1E293B', // visor frame / tech housing
-  C: '#5CE1E6', // neon cyan — eye glow, wake state, LED
-  A: '#FFC857', // amber — sleep state LED
-  P: '#8B5CF6', // violet — dev scarf
-  p: '#6D3FE0', // scarf shade
-  J: '#22304A', // hoodie
-  j: '#17223A', // hoodie shade
-  T: '#3B4A66', // inner tee
-  t: '#2A3550', // inner tee shade
-  G: '#2E3D5C', // trousers
-  g: '#1E2A44', // trousers shade
-  N: '#E2E8F0', // paws / sneakers
+  W: '#FFFFFF', // fur highlight (snow white)
+  F: '#F1F5F9', // fur base (snow cold tint)
+  f: '#CBD5E1', // fur shade / muzzle / ear inner
+  s: '#94A3B8', // fur shadow (slate)
+  d: '#64748B', // fur deep shadow
+  n: '#0F172A', // nose, visor glass, dark charcoal
+  v: '#1E293B', // visor frame / housing
+  C: '#38BDF8', // visor HUD / eye neon (cyan / sky 400)
+  c: '#0284C7', // visor sub-glow
+  A: '#F59E0B', // amber alert
+  P: '#A855F7', // violet dev scarf
+  p: '#7E22CE', // scarf dark fold
+  J: '#1E293B', // hoodie slate-800
+  j: '#0F172A', // hoodie shadow slate-900
+  H: '#334155', // hoodie highlight slate-700
+  T: '#334155', // inner tee
+  t: '#1E293B', // inner tee shadow
+  G: '#1E293B', // trousers
+  g: '#0F172A', // trousers shadow
+  N: '#F8FAFC', // sneaker white
+  S: '#0284C7', // sneaker accent / cyan sole trim
 };
 
 const grid = () => Array.from({ length: H }, () => Array(W).fill('.'));
@@ -53,42 +56,67 @@ function outline(g) {
 
 /* ---------------- body + head (static layer) ---------------- */
 function drawBody(g, { pose = 'sit' } = {}) {
-  // hoodie — oversized but tapered, arms read separately from the torso
-  rows(g, [[23, 14, 31], [24, 11, 34], [25, 10, 35]], 'J');
-  for (let y = 26; y <= 31; y++) span(g, y, 11, 34, 'J');
-  for (let y = 32; y <= 39; y++) span(g, y, 12, 33, 'J');
-  // open front + inner tee
-  for (let y = 23; y <= 39; y++) span(g, y, 20, 25, 'T');
-  for (let y = 25; y <= 39; y++) pt(g, 20, y, 't');
-  for (let y = 23; y <= 39; y++) { pt(g, 19, y, 'j'); pt(g, 26, y, 'j'); }
-  for (let y = 30; y <= 38; y++) { pt(g, 15, y, 'j'); pt(g, 30, y, 'j'); }
-  span(g, 39, 12, 18, 'j'); span(g, 39, 27, 33, 'j');
-  // hoodie drawstrings, tipped with a tiny neon bead
-  span(g, 27, 22, 23, 'j'); span(g, 33, 22, 23, 'j');
-  pt(g, 22, 28, 'C'); pt(g, 23, 34, 'C');
-  // sleeves: shoulder → paws planted on the ledge, swallowing the paws
-  const left = [[26, 8, 12], [27, 8, 12], [28, 7, 12], [29, 7, 11], [30, 6, 11], [31, 6, 10], [32, 5, 10], [33, 5, 10], [34, 5, 9], [35, 4, 9], [36, 4, 9], [37, 4, 9], [38, 3, 8], [39, 3, 8], [40, 3, 8], [41, 3, 8]];
-  const right = left.map(([y, a, b]) => [y, 45 - b, 45 - a]);
-  rows(g, left, 'J');
-  for (const [y, a] of left) pt(g, a, y, 'j');
-  span(g, 41, 3, 8, 'j'); span(g, 42, 4, 6, 'N');
+  // hoodie torso — proportional & tailored streetwear
+  rows(g, [[22, 16, 29], [23, 14, 31], [24, 13, 32], [25, 12, 33]], 'J');
+  for (let y = 26; y <= 38; y++) span(g, y, 13, 32, 'J');
+  
+  // hoodie highlights & folds
+  for (let y = 24; y <= 37; y++) { pt(g, 13, y, 'H'); pt(g, 32, y, 'j'); }
+  span(g, 38, 13, 32, 'j'); // bottom hem
+
+  // inner tee & zip lane
+  for (let y = 22; y <= 37; y++) span(g, y, 21, 24, 'T');
+  for (let y = 22; y <= 37; y++) { pt(g, 21, y, 't'); pt(g, 24, y, 't'); }
+  
+  // cyan zipper pull & cyber runner details
+  pt(g, 22, 23, 'C');
+  pt(g, 23, 27, 'C');
+  pt(g, 22, 31, 'c');
+
+  // hoodie pocket pouch
+  for (let y = 33; y <= 36; y++) span(g, y, 16, 29, 'j');
+  for (let y = 33; y <= 36; y++) span(g, y, 17, 28, 'J');
+  span(g, 33, 17, 28, 'H');
+
+  // Arms / Sleeves: hanging naturally, cute cuffs & paws
+  const leftArm = [
+    [23, 10, 13], [24, 9, 13], [25, 9, 13],
+    [26, 8, 12], [27, 8, 12], [28, 8, 12],
+    [29, 8, 12], [30, 8, 12], [31, 8, 12],
+    [32, 8, 12], [33, 8, 12], [34, 8, 12],
+    [35, 8, 12], [36, 8, 12], [37, 8, 12]
+  ];
+  const rightArm = leftArm.map(([y, a, b]) => [y, 45 - b, 45 - a]);
+  
+  rows(g, leftArm, 'J');
+  for (const [y, a] of leftArm) pt(g, a, y, 'H');
+  span(g, 37, 8, 12, 'j'); // cuff ribbing
+  // white cute paw resting
+  span(g, 38, 8, 11, 'F'); span(g, 39, 8, 11, 'W'); pt(g, 8, 38, 'f');
+
   if (pose !== 'wave') {
-    rows(g, right, 'J');
-    for (const [y, , b] of right) pt(g, b, y, 'j');
-    span(g, 41, 37, 42, 'j'); span(g, 42, 39, 41, 'N');
+    rows(g, rightArm, 'J');
+    for (const [y, , b] of rightArm) pt(g, b, y, 'j');
+    span(g, 37, 33, 37, 'j');
+    span(g, 38, 34, 37, 'F'); span(g, 39, 34, 37, 'W'); pt(g, 37, 38, 'f');
   }
-  // trousers / lap
-  for (let y = 40; y <= 42; y++) span(g, y, 12, 33, 'G');
-  span(g, 42, 22, 23, 'g'); pt(g, 22, 41, 'g');
+
+  // Trousers / Lap (sitting)
+  for (let y = 39; y <= 42; y++) span(g, y, 14, 31, 'G');
+  span(g, 42, 22, 23, 'g'); pt(g, 22, 41, 'g'); pt(g, 23, 41, 'g');
 }
 
-/** The violet dev-scarf collar (static) — wraps the neck between head and body. */
+/** The violet dev-scarf collar (static) — voluminous & snug around the neck. */
 function drawScarf(g) {
-  span(g, 20, 16, 31, 'P');
-  span(g, 21, 15, 32, 'P');
-  span(g, 22, 15, 32, 'p');
-  span(g, 23, 17, 30, 'p');
-  pt(g, 15, 21, 'p'); pt(g, 32, 21, 'p');
+  span(g, 18, 15, 30, 'P');
+  span(g, 19, 14, 31, 'P');
+  span(g, 20, 13, 32, 'P');
+  span(g, 21, 14, 31, 'p');
+  span(g, 22, 16, 29, 'p');
+  
+  // scarf highlights & fold shadow
+  span(g, 19, 16, 26, 'W'); // top fabric sheen
+  pt(g, 14, 20, 'p'); pt(g, 31, 20, 'p');
 }
 
 function drawHead(g, { tilt = 0 } = {}) {
@@ -96,94 +124,151 @@ function drawHead(g, { tilt = 0 } = {}) {
   const sp = (y, a, b, c) => span(g, Y(y), X(a), X(b), c);
   const p = (x, y, c) => pt(g, X(x), Y(y), c);
 
-  /* ears — two round bumps on an otherwise continuous crown */
-  sp(0, 12, 16, 'F'); sp(0, 31, 35, 'F');
-  sp(0, 13, 15, 'f'); sp(0, 32, 34, 'f'); // inner ear
-  sp(1, 11, 36, 'F');
-  sp(2, 10, 37, 'F');
+  /* cute round ears with pinkish/slate soft inner ear */
+  // Left ear
+  sp(0, 12, 16, 'F');
+  sp(1, 11, 17, 'F');
+  sp(1, 13, 16, 'f');
+  sp(2, 11, 18, 'F');
+  sp(2, 13, 16, 's');
 
-  /* head mass — wide and round, generous forehead */
-  for (let y = 3; y <= 15; y++) sp(y, 9, 38, 'F');
-  /* jaw — tapers back in toward the scarf */
-  sp(16, 10, 37, 'F');
-  sp(17, 12, 35, 'F');
+  // Right ear
+  sp(0, 29, 33, 'F');
+  sp(1, 28, 34, 'F');
+  sp(1, 29, 32, 'f');
+  sp(2, 27, 34, 'F');
+  sp(2, 29, 32, 's');
 
-  /* ice-cold shading: light upper-right, cold shadow lower-left */
-  for (let y = 4; y <= 16; y++) { p(9, y, 's'); p(10, y, 'f'); }
-  for (let y = 4; y <= 14; y++) p(38, y, 'f');
-  sp(16, 10, 16, 's'); p(10, 16, 'd');
-  sp(17, 12, 18, 's'); p(12, 17, 'd'); p(13, 17, 'd'); p(14, 17, 'd');
-  sp(17, 30, 35, 'f');
-  /* crown sheen, broken band like the old bob highlight */
-  sp(1, 20, 30, 'W'); sp(2, 22, 33, 'W'); sp(3, 25, 35, 'W'); sp(4, 28, 36, 'W');
+  /* Head mass — rounded skull, cute chubby cheeks */
+  sp(2, 15, 30, 'F');
+  sp(3, 11, 34, 'F');
+  sp(4, 10, 35, 'F');
+  sp(5, 9, 36, 'F');
+  sp(6, 9, 36, 'F');
+  sp(7, 9, 36, 'F');
+  sp(8, 9, 36, 'F');
+  sp(9, 9, 36, 'F');
+  sp(10, 9, 36, 'F');
+  sp(11, 9, 36, 'F');
+  sp(12, 10, 35, 'F');
+  sp(13, 11, 34, 'F');
+  sp(14, 12, 33, 'F');
+  sp(15, 14, 31, 'F');
 
-  /* muzzle — soft pastel patch under the visor */
-  sp(12, 18, 29, 'f'); sp(13, 17, 30, 'f'); sp(14, 17, 30, 'f'); sp(15, 18, 29, 'f');
-  for (let y = 13; y <= 14; y++) p(17, y, 's');
-  p(30, 13, 'W'); p(30, 14, 'W');
-  /* nose */
-  sp(12, 21, 26, 'n'); sp(13, 22, 25, 'n');
+  /* Shading & fur highlights: light top-center, soft gradient down */
+  sp(3, 16, 29, 'W');
+  sp(4, 15, 30, 'W');
+  for (let y = 6; y <= 13; y++) { p(9, y, 's'); p(10, y, 'f'); }
+  for (let y = 6; y <= 13; y++) { p(36, y, 's'); p(35, y, 'f'); }
+  sp(14, 12, 16, 's'); sp(15, 14, 18, 'd');
+  sp(14, 29, 33, 's'); sp(15, 27, 31, 'd');
 
-  /* cybernetic visor — dark glass with a wrap-around frame */
-  sp(8, 13, 34, 'v');
-  sp(9, 11, 36, 'n'); sp(10, 11, 36, 'n'); sp(11, 14, 33, 'v');
-  p(11, 9, 'C'); p(11, 10, 'C'); p(36, 9, 'v'); p(36, 10, 'v');
-  /* visor glass reflection glints — subtle highlight for depth */
-  p(15, 9, 'W'); p(16, 9, 'W');
+  /* Visor — sleek cyberpunk goggles with dark glass, curved edges */
+  sp(6, 12, 33, 'v');
+  for (let y = 7; y <= 9; y++) sp(y, 11, 34, 'n');
+  sp(10, 12, 33, 'v');
+  
+  // Visor glass sheen / reflection
+  sp(7, 13, 15, 'W');
+  sp(8, 14, 15, 'W');
+  sp(7, 26, 27, 'c');
+
+  // Visor frame temples & cyber accents
+  p(11, 8, 'C'); p(34, 8, 'C');
+
+  /* Muzzle — cute compact rounded snout */
+  sp(10, 19, 26, 'f');
+  sp(11, 18, 27, 'W');
+  sp(12, 18, 27, 'F');
+  sp(13, 19, 26, 'f');
+
+  /* Nose — inverted triangle/rounded black nose */
+  sp(10, 21, 24, 'n');
+  p(22, 11, 'n'); p(23, 11, 'n');
+
+  /* Cute cheek blush/fur warmth */
+  p(12, 11, 'f'); p(13, 11, 's');
+  p(32, 11, 'f'); p(33, 11, 's');
 }
 
 /* ---------------- animated layers ---------------- */
 // Eye glints inside the visor: [x0, x1] inclusive.
-const EYES = [{ x0: 17, x1: 19 }, { x0: 29, x1: 31 }];
+const EYES = [{ x0: 16, x1: 19 }, { x0: 26, x1: 29 }];
 function drawEyes(g, state, t = 0) {
   const Y = (y) => y + HY + (t ? 1 : 0), X = (x) => x + t;
   for (const { x0, x1 } of EYES) {
     if (state === 'closed') {
-      // sleeping arc ︶ — ends up, middle down
-      pt(g, X(x0), Y(9), 'C'); pt(g, X(x1), Y(9), 'C');
-      span(g, Y(10), X(x0 + 1), X(x1 - 1), 'C');
+      // cute sleeping curved eye ︶
+      pt(g, X(x0), Y(7), 'C'); pt(g, X(x1), Y(7), 'C');
+      span(g, Y(8), X(x0 + 1), X(x1 - 1), 'C');
     } else if (state === 'blink') {
-      span(g, Y(9), X(x0), X(x1), 'C');
+      span(g, Y(8), X(x0), X(x1), 'C');
     } else {
-      span(g, Y(9), X(x0), X(x1), 'C');
-      span(g, Y(10), X(x0), X(x1), 'C');
-      pt(g, X(x0 + 1), Y(9), 'W'); // glint
+      // Expressive cyan visor eyes with highlight
+      span(g, Y(7), X(x0), X(x1), 'C');
+      span(g, Y(8), X(x0), X(x1), 'C');
+      pt(g, X(x0 + 1), Y(7), 'W'); // spark
+      pt(g, X(x1), Y(8), 'c'); // cyber pupil depth
     }
   }
 }
 
 function drawMouth(g, mood, t = 0) {
   const Y = (y) => y + HY + (t ? 1 : 0), X = (x) => x + t;
-  if (mood === 'smirk') { pt(g, X(21), Y(14), 'n'); span(g, Y(15), X(22), X(24), 'n'); pt(g, X(25), Y(14), 'n'); }
-  else if (mood === 'sleep') { pt(g, X(23), Y(15), 'n'); pt(g, X(24), Y(15), 'n'); }
-  else if (mood === 'open') { span(g, Y(15), X(22), X(25), 'n'); pt(g, X(23), Y(16), 'n'); pt(g, X(24), Y(16), 'n'); }
+  // compact cute cat-like mouth :3
+  if (mood === 'smirk' || mood === 'chill') {
+    pt(g, X(21), Y(12), 'n');
+    pt(g, X(22), Y(13), 'n');
+    pt(g, X(23), Y(12), 'n');
+    pt(g, X(24), Y(13), 'n');
+    pt(g, X(25), Y(12), 'n');
+  } else if (mood === 'sleep') {
+    pt(g, X(22), Y(13), 'n');
+    pt(g, X(23), Y(13), 'n');
+  } else if (mood === 'open') {
+    pt(g, X(21), Y(12), 'n');
+    span(g, Y(13), X(22), X(24), 'n');
+    pt(g, X(25), Y(12), 'n');
+    pt(g, X(23), Y(14), 'f'); // tongue hint
+  }
 }
 
 /** The dev-scarf tail. `sway` 0/1 shifts the tip one pixel. */
 function drawScarfTail(g, sway = 0, t = 0) {
   const Y = (y) => y + (t ? 1 : 0), X = (x) => x + t;
-  for (let y = 22; y <= 31; y++) span(g, Y(y), X(32), X(35), 'P');
-  span(g, Y(32), X(32 + sway), X(35 + sway), 'P');
-  span(g, Y(33), X(33 + sway), X(35 + sway), 'P'); pt(g, X(34 + sway), Y(34), 'P');
-  for (let y = 23; y <= 32; y++) pt(g, X(32 + (y > 31 ? sway : 0)), Y(y), 'p');
-  pt(g, X(35), Y(24), 'p'); pt(g, X(35), Y(25), 'p');
-  pt(g, X(33), Y(34), 'p'); pt(g, X(35), Y(34), 'p');
+  for (let y = 20; y <= 30; y++) span(g, Y(y), X(29), X(33), 'P');
+  span(g, Y(31), X(29 + sway), X(33 + sway), 'P');
+  span(g, Y(32), X(30 + sway), X(33 + sway), 'P');
+  pt(g, X(31 + sway), Y(33), 'P');
+  
+  // Scarf tail shading
+  for (let y = 21; y <= 31; y++) pt(g, X(29 + (y > 30 ? sway : 0)), Y(y), 'p');
+  pt(g, X(33), Y(23), 'W'); // fabric fold highlight
+  pt(g, X(33), Y(24), 'W');
 }
 
-/** Dangling legs. frame: 0 both down, 1 left kicks, 2 right kicks. */
+/** Dangling legs & stylish cyber sneakers. frame: 0 both down, 1 left kicks, 2 right kicks. */
 function drawLegs(g, frame = 0) {
   const leg = (x0, kick) => {
-    const top = LEDGE, len = kick ? 8 : 10;
-    span(g, top, x0 - 1, x0 + 5, 'G');
-    for (let y = top + 1; y <= top + len; y++) span(g, y, x0, x0 + 4, 'G');
-    for (let y = top + 1; y <= top + len; y++) pt(g, x0 + 1, y, 'g');
+    const top = LEDGE, len = kick ? 7 : 9;
+    span(g, top, x0 - 1, x0 + 4, 'G');
+    for (let y = top + 1; y <= top + len; y++) span(g, y, x0, x0 + 3, 'G');
+    for (let y = top + 1; y <= top + len; y++) pt(g, x0 + 3, y, 'g'); // trouser shadow
+    
+    // stylish chunky low-top sneakers
     const sy = top + len + 1, sw = kick ? 1 : 0;
-    span(g, sy, x0 - 1 - sw, x0 + 5 + sw, 'N'); span(g, sy + 1, x0 - 2 - sw, x0 + 5 + sw, 'N');
-    span(g, sy + 2, x0 - 2 - sw, x0 + 5 + sw, 'N'); span(g, sy + 3, x0 - 2 - sw, x0 + 5 + sw, 'f');
-    pt(g, x0 + 1, sy, 'f'); pt(g, x0 + 3, sy, 'f');
+    // shoe upper
+    span(g, sy, x0 - 1 - sw, x0 + 4 + sw, 'N');
+    span(g, sy + 1, x0 - 2 - sw, x0 + 4 + sw, 'N');
+    // cyan runner sole accent
+    span(g, sy + 2, x0 - 2 - sw, x0 + 4 + sw, 'S');
+    // outsole
+    span(g, sy + 3, x0 - 2 - sw, x0 + 4 + sw, 'N');
+    pt(g, x0, sy + 1, 'H'); // shoe lace detail
+    pt(g, x0 + 2, sy + 1, 'H');
   };
-  leg(15, frame === 1);
-  leg(26, frame === 2);
+  leg(16, frame === 1);
+  leg(25, frame === 2);
 }
 
 /** Raised waving paw (save point). frame 0/1 tilts the paw. */
@@ -284,8 +369,8 @@ export function bearPixel({ px = 6, mode = 'day', pose = 'sit', blinkDelay = 0, 
   }
 
   // status LED on the visor temple: amber when asleep or alert, cyan when chill
-  const led = `<rect x="${(36 + t) * px}" y="${(9 + HY + t) * px}" width="${px}" height="${px}" fill="${visorColor}" style="animation:pxLed 2.4s steps(1) infinite"/>`;
-  const ledRing = `<circle cx="${(36 + t) * px + px / 2}" cy="${(9 + HY + t) * px + px / 2}" r="${px * 2}" fill="none" stroke="${visorColor}" stroke-width="${px * 0.4}" opacity="0.3" style="animation:pxLed 2.4s steps(1) infinite"/>`;
+  const led = `<rect x="${(34 + t) * px}" y="${(8 + HY + t) * px}" width="${px}" height="${px}" fill="${visorColor}" style="animation:pxLed 2.4s steps(1) infinite"/>`;
+  const ledRing = `<circle cx="${(34 + t) * px + px / 2}" cy="${(8 + HY + t) * px + px / 2}" r="${px * 1.8}" fill="none" stroke="${visorColor}" stroke-width="${px * 0.4}" opacity="0.3" style="animation:pxLed 2.4s steps(1) infinite"/>`;
 
   // Battery / Energy bar indicator beside Nouri (when not cropped or waving)
   let battSvg = '';
@@ -312,7 +397,7 @@ export function bearPixel({ px = 6, mode = 'day', pose = 'sit', blinkDelay = 0, 
 }
 
 /** Face box in sprite space (for the liveness brackets). */
-export const FACE_BOX = { x: 9, y: 8, w: 30, h: 12 };
+export const FACE_BOX = { x: 10, y: 7, w: 26, h: 10 };
 
 /* ---------------- tiny game sprite (14×18) ---------------- */
 // Same identity at game scale: polar bear, cyber visor, violet scarf.
