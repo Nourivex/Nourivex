@@ -1,6 +1,6 @@
 {
   "demo": false,
-  "generatedAt": "2026-10-20T18:49:44.883Z",
+  "generatedAt": "2026-10-21T01:13:50.869Z",
   "login": "Nourivex",
   "playtime": "0y 11m",
   "totals": {
@@ -96,7 +96,7 @@
     }
   ],
   "streak": {
-    "current": 1,
+    "current": 0,
     "longest": 5
   },
   "weeks": [
