@@ -16,11 +16,26 @@ let bytes = 0;
 const out = (name, svg) => { writeFileSync(new URL(`assets/${name}`, root), svg); bytes += svg.length; };
 
 // ---------- hero (day / night in the owner's timezone) ----------
-const hour = +new Intl.DateTimeFormat('en-GB', { hour: 'numeric', hourCycle: 'h23', timeZone: cfg.timezone }).format(new Date());
+const now = new Date();
+const hour = +new Intl.DateTimeFormat('en-GB', { hour: 'numeric', hourCycle: 'h23', timeZone: cfg.timezone }).format(now);
+const dayOfWeek = now.getDay(); // 0 is Sunday, 1 is Monday, 5 is Friday, 6 is Saturday
+// Energy level: 100% on Monday morning, dropping towards 35% by Friday/Saturday, recharging Sunday
+const batteryLevels = [0.85, 1.0, 0.9, 0.75, 0.6, 0.45, 0.35]; // Sunday to Saturday
+const currentBattery = batteryLevels[dayOfWeek];
+
+// Determine mood from live stats/streak: if current streak is active (>0), chill; otherwise alert
+const mood = stats.streak && stats.streak.current > 0 ? 'chill' : 'alert';
+
+// Dynamic project uptime: calculate days since initiation
+const projectInception = new Date('2024-03-01T00:00:00Z');
+const diffMs = now - projectInception;
+const uptimeDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+const uptimeHours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+
 const { from, to } = cfg.nightHours;
 const isNight = process.env.NOURI_MODE ? process.env.NOURI_MODE === 'night' : from > to ? hour >= from || hour < to : hour >= from && hour < to;
-const heroDay = buildHero(cfg, { mode: 'day', level: stats.level });
-const heroNight = buildHero(cfg, { mode: 'night', level: stats.level });
+const heroDay = buildHero(cfg, { mode: 'day', level: stats.level, mood, battery: currentBattery, uptimeDays, uptimeHours });
+const heroNight = buildHero(cfg, { mode: 'night', level: stats.level, mood, battery: currentBattery, uptimeDays, uptimeHours });
 out('hero-day.svg', heroDay);
 out('hero-night.svg', heroNight);
 out('hero.svg', isNight ? heroNight : heroDay);
@@ -140,6 +155,14 @@ nouri@${host}:~$ cat ./quest_log.txt
 [ QUEST 01 ] MediCare-Bridge ............. IN PROGRESS
 [ QUEST 02 ] LaptopFinder Engine ......... IN PROGRESS
 [ NEXT    ] ??? .......................... LOCKED
+
+nouri@${host}:~$ nouri --inspect
+[ DIAGNOSTICS: NOURI COMPANION CORE ]
+• firmware : v2.4.0-cyber-arctic
+• visor-mode : ${mood === 'alert' ? 'ALERT (amber)' : 'CHILL (cyan)'}
+• energy    : ${Math.round(currentBattery * 100)}% (auto-sync: day ${dayOfWeek})
+• uptime    : ${uptimeDays} days, ${uptimeHours} hrs
+• easter-egg: visit SECRET.md for Curious Cat achievement
 
 nouri@${host}:~$ sudo hire ${host}
 [sudo] password for recruiter: ********

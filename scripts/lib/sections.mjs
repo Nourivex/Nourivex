@@ -200,11 +200,13 @@ export function questCard(cfg, p) {
 <path d="M${1+bLen} 1H1V${1+bLen}"/><path d="M${w-1-bLen} 1H${w-1}V${1+bLen}"/>
 <path d="M${w-1} ${h-1-bLen}V${h-1}H${w-1-bLen}"/><path d="M${1+bLen} ${h-1}H1V${h-1-bLen}"/>
 </g>`;
+  const rpgTag = p.questType === 'CO-OP' ? '[CO-OP: ACTIVE]' : DONE.has(p.status) ? '[QUEST: CLEARED]' : '[MAIN QUEST: ACTIVE]';
   const body = `
 <rect x="1" y="1" width="${w - 2}" height="${h - 2}" rx="18" fill="${C.void}"/>
 <rect x="1" y="1" width="${w - 2}" height="${h - 2}" rx="18" stroke="${C.line2}" stroke-width="1.5"/>
 <path d="M28 1.5H128" stroke="${st.c}" stroke-width="2.5" stroke-linecap="round"/>
 ${t.text(p.quest, { x: 22, y: 34, size: 13, style: 'mono700', fill: C.amber, ls: 2.5 })}
+${t.text(rpgTag, { x: 120, y: 34, size: 10, style: 'mono700', fill: C.dim, ls: 1 })}
 ${chip(t, { x: w - 22, y: 17, label: p.type, color: p.type === 'MAIN' ? C.cyan : C.amber, size: 10, h: 22, padX: 9, anchor: 'end' }).svg}
 <g transform="translate(18 50)">
   <clipPath id="cvis"><rect width="454" height="140" rx="12"/></clipPath>

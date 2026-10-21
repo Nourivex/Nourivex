@@ -19,6 +19,8 @@ const css = `
 @keyframes out{to{opacity:0}}
 @keyframes boxIn{from{opacity:0;transform:scale(1.25)}to{opacity:1;transform:scale(1)}}
 .fbox{transform-box:fill-box;transform-origin:center}
+@keyframes dust{0%{transform:translateY(0) scale(0.8);opacity:0.6}50%{transform:translateY(-8px) scale(1.2);opacity:0.3}100%{transform:translateY(-16px) scale(0.6);opacity:0}}
+.p-dust{animation:dust 4s ease-in-out infinite}
 `;
 
 function typed(t, id, text, { x, y, size = 14, style = 'mono400', fill = C.text, begin = 0, cps = 90 }) {
@@ -34,7 +36,7 @@ function typed(t, id, text, { x, y, size = 14, style = 'mono400', fill = C.text,
   };
 }
 
-export function buildHero(cfg, { mode = 'day', level = null } = {}) {
+export function buildHero(cfg, { mode = 'day', level = null, mood = 'chill', battery = 1, uptimeDays = 0, uptimeHours = 0 } = {}) {
   const night = mode === 'night';
   const t = new Typo('h');
   const clips = [];
@@ -42,14 +44,15 @@ export function buildHero(cfg, { mode = 'day', level = null } = {}) {
 
   // ---------- terminal lines ----------
   const lx = TX + 28, ly0 = TY + 62, lh = 21;
+  const uptimeStr = `${uptimeDays}d ${uptimeHours}h`;
   const L = [
     { p: '$', pc: C.cyan, s: `boot nourivex --user ${user} --env production`, c: C.text },
-    { p: '[ ok ]', pc: C.green, s: `kernel ........ backend · cloud · v${new Date().getFullYear() - 2022}.0`, c: C.muted },
+    { p: '[ ok ]', pc: C.green, s: `kernel ........ backend · cloud · uptime ${uptimeStr}`, c: C.muted },
     { p: '[ ok ]', pc: C.green, s: `quests ........ ${cfg.projects.length} active${level ? ` · xp unlocked lv ${level}` : ''}`, c: C.muted },
     { p: '[ ok ]', pc: C.green, s: 'stack ......... go · node · postgres · docker · ready', c: C.muted },
     night
       ? { p: '[ zz ]', pc: C.amber, s: 'companion ..... offline · will resume at 06:00 UTC+7', c: C.muted }
-      : { p: '[ ok ]', pc: C.green, s: 'companion ..... nouri is online · liveness pending', c: C.muted },
+      : { p: mood === 'alert' ? '[ !! ]' : '[ ok ]', pc: mood === 'alert' ? C.amber : C.green, s: mood === 'alert' ? 'companion ..... ALERT · high workload detected' : 'companion ..... nouri is online · liveness ok', c: C.muted },
   ];
   let tt = 0.2;
   const lines = L.map((r, i) => {
@@ -74,7 +77,8 @@ export function buildHero(cfg, { mode = 'day', level = null } = {}) {
   const liveness = night
     ? `<g class="a" style="animation:fadeIn .01s ${checkAt}s both">${t.text('[ -- ]', { x: lx, y: yL, size: 14, style: 'mono700', fill: C.dim })}${t.text('liveness ...... paused while he sleeps', { x: lx + pw + 10, y: yL, size: 14, fill: C.dim })}</g>`
     : `<g class="a" style="animation:fadeIn .01s ${checkAt}s both,out .01s ${blinkAt + 0.1}s forwards">${t.text('[ .. ]', { x: lx, y: yL, size: 14, style: 'mono700', fill: C.amber })}${t.text('liveness ...... waiting for a blink', { x: lx + pw + 10, y: yL, size: 14, fill: C.muted })}</g>
-<g class="a" style="animation:fadeIn .01s ${blinkAt + 0.1}s both">${t.text('[ ok ]', { x: lx, y: yL, size: 14, style: 'mono700', fill: C.green })}${t.text('liveness ...... blink detected — he is real', { x: lx + pw + 10, y: yL, size: 14, fill: C.text })}</g>`;
+<g class="a" style="animation:fadeIn .01s ${blinkAt + 0.1}s both">${t.text('[ ok ]', { x: lx, y: yL, size: 14, style: 'mono700', fill: C.green })}${t.text('liveness ...... blink detected — he is real', { x: lx + pw + 10, y: yL, size: 14, fill: C.text })}</g>
+<g class="a" style="animation:fadeIn .01s ${(blinkAt + 0.4).toFixed(2)}s both">${t.text('guest@nourivex:~$', { x: lx, y: yL + lh, size: 13, style: 'mono700', fill: C.cyan })}${t.text('▋', { x: lx + t.measure('guest@nourivex:~$ ', { style: 'mono700', size: 13 }), y: yL + lh, size: 13, style: 'mono700', fill: C.green, attrs: 'class="a" style="animation:blinkCursor 1s steps(1) infinite"' })}</g>`;
 
   // progress bar: fills from 0 to 100% across the duration of all lines printing
   const pbDur = (tt + 0.2).toFixed(2); // total boot duration
@@ -103,7 +107,7 @@ ${liveness}`;
   <g class="a" style="animation:fadeIn .01s ${blinkAt + 0.1}s both">${box(C.green)}</g>
 </g>`;
 
-  const bear = `<g class="a" style="animation:drop .5s steps(5) ${spawnAt}s both"><g transform="translate(${LX} ${LY})">${bearPixel({ px: PX, mode, blinkDelay, blinkDur })}</g></g>${faceCheck}`;
+  const bear = `<g class="a" style="animation:drop .5s steps(5) ${spawnAt}s both"><g transform="translate(${LX} ${LY})">${bearPixel({ px: PX, mode, blinkDelay, blinkDur, mood, battery })}</g></g>${faceCheck}`;
 
   // ---------- identity ----------
   const nameAt = 0.35; // identity first: it is what a visitor reads in the first second
@@ -146,8 +150,19 @@ ${glitch2}
 ${tg.svg}
 <rect x="${endX}" y="${tagY - 16}" width="10" height="20" fill="${C.cyan}" class="a" style="animation:fadeIn .01s ${tg.end}s both,blinkCursor 1.1s steps(1) ${tg.end}s infinite"/>`;
 
+  const scanlineH = `<rect width="${W}" height="2" fill="${C.cyan}" opacity="0.08" class="fb" style="animation:scanline 6s linear infinite"/>`;
+  const particles = `
+  <g opacity="0.4">
+    <circle cx="120" cy="180" r="1.5" fill="${C.cyan}" class="p-dust" style="animation-delay: 0s"/>
+    <circle cx="340" cy="240" r="1.2" fill="${C.sakura}" class="p-dust" style="animation-delay: 1.5s"/>
+    <circle cx="580" cy="140" r="1.5" fill="${C.green}" class="p-dust" style="animation-delay: 0.8s"/>
+    <circle cx="820" cy="220" r="1" fill="${C.amber}" class="p-dust" style="animation-delay: 2.2s"/>
+  </g>`;
+
   const body = `
 ${frame(t, { w: W, h: H, title: `nouri://${user}`, tag: night ? '◐ COMPANION ASLEEP' : '● COMPANION ONLINE', tagColor: night ? C.amber : C.green, gridId: 'hgrid' })}
+${scanlineH}
+${particles}
 ${identity}
 ${panel}
 ${bear}`;

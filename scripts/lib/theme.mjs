@@ -31,7 +31,16 @@ const BASE_CSS = `
 @keyframes glitch1{0%,4%,100%{clip-path:inset(0)}1%{clip-path:inset(20% 0 60% 0)}2%{clip-path:inset(60% 0 10% 0)}3%{clip-path:inset(40% 0 40% 0)}}
 @keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}
 @keyframes popIn{0%{transform:scale(0.8);opacity:0}60%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
-@media (prefers-reduced-motion:reduce){*{animation-duration:0s!important;animation-delay:0s!important;animation-iteration-count:1!important}}
+@media (prefers-reduced-motion:reduce){
+  *, .a, .fb, .seg, .run, .mdA, .mdB, .mdS, .mdH, .mdBar, .mdV, .lfG, .lfR, .lfW, .ring, .grow, .rise {
+    animation: none !important;
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
 `;
 
 /** Wrap content into a standalone, accessible SVG document. */

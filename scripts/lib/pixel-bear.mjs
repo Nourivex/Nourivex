@@ -226,15 +226,21 @@ export const bearPixelCss = `
 @keyframes pxLed{0%,70%{opacity:1}71%,100%{opacity:.25}}
 @keyframes pxZ{0%{opacity:0;transform:translate(0,0)}20%{opacity:1}100%{opacity:0;transform:translate(12px,-40px)}}
 @keyframes pxFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
+.nouri-interactive{cursor:pointer;transition:transform .15s ease}
+.nouri-interactive:hover{animation:nouriStartle .3s steps(2) 1!important}
+@keyframes nouriStartle{0%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.05)}100%{transform:translateY(0) scale(1)}}
 `;
 
 /**
  * Full character as an SVG group at pixel size `px`.
  * mode: 'day' | 'night'; pose: 'sit' | 'wave'; crop: 'head' keeps only the head (peeking).
  * blinkDelay lets the hero sync the first blink with the liveness check.
+ * mood: 'chill' | 'alert' | 'sleep'
+ * battery: 0..1 (energy level)
  */
-export function bearPixel({ px = 6, mode = 'day', pose = 'sit', blinkDelay = 0, blinkDur = 5.2, swing = true, crop = null } = {}) {
+export function bearPixel({ px = 6, mode = 'day', pose = 'sit', blinkDelay = 0, blinkDur = 5.2, swing = true, crop = null, mood = 'chill', battery = 1 } = {}) {
   const night = mode === 'night';
+  const isAlert = mood === 'alert';
   const t = night ? 1 : 0;
   const base = grid();
   drawBody(base, { pose });
@@ -246,7 +252,7 @@ export function bearPixel({ px = 6, mode = 'day', pose = 'sit', blinkDelay = 0, 
   const keepRows = crop === 'head' ? (y) => y <= 22 : () => true;
   const R = (g) => toRects(g.map((r, y) => (keepRows(y) ? r : r.map(() => '.'))), px);
 
-  const face = (state, mood) => layer((g) => { drawEyes(g, state, t); drawMouth(g, mood, t); }, false);
+  const face = (state, moodVal) => layer((g) => { drawEyes(g, state, t); drawMouth(g, moodVal, t); }, false);
 
   let legs = '';
   if (crop !== 'head') {
@@ -257,10 +263,12 @@ export function bearPixel({ px = 6, mode = 'day', pose = 'sit', blinkDelay = 0, 
     }
   }
 
+  const visorColor = night ? PAL.A : (isAlert ? PAL.A : PAL.C);
+
   const eyes = night
     ? R(face('closed', 'sleep'))
-    : `<g style="animation:pxBlinkOpen ${blinkDur}s steps(1) ${blinkDelay}s infinite">${R(face('open', 'smirk'))}</g>` +
-      `<g style="animation:pxBlinkShut ${blinkDur}s steps(1) ${blinkDelay}s infinite;opacity:0">${R(face('blink', 'smirk'))}</g>`;
+    : `<g style="animation:pxBlinkOpen ${blinkDur}s steps(1) ${blinkDelay}s infinite">${R(face('open', isAlert ? 'open' : 'smirk'))}</g>` +
+      `<g style="animation:pxBlinkShut ${blinkDur}s steps(1) ${blinkDelay}s infinite;opacity:0">${R(face('blink', isAlert ? 'open' : 'smirk'))}</g>`;
 
   // the scarf tail's own outline must not cut into the collar it grows from
   const tailLayer = (sw) => layer((g) => drawScarfTail(g, sw, t)).map((r, y) => (y <= 22 + t ? r.map((c) => (c === 'o' ? '.' : c)) : r));
@@ -275,16 +283,32 @@ export function bearPixel({ px = 6, mode = 'day', pose = 'sit', blinkDelay = 0, 
       `<g style="animation:pxHalf2 .9s steps(1) infinite">${R(layer((g) => drawWave(g, 1)))}</g>`;
   }
 
-  // status LED on the visor temple: neon cyan when online, amber when asleep
-  const led = `<rect x="${(36 + t) * px}" y="${(9 + HY + t) * px}" width="${px}" height="${px}" fill="${night ? PAL.A : PAL.C}" style="animation:pxLed 2.4s steps(1) infinite"/>`;
-  const ledRing = `<circle cx="${(36 + t) * px + px / 2}" cy="${(9 + HY + t) * px + px / 2}" r="${px * 2}" fill="none" stroke="${night ? PAL.A : PAL.C}" stroke-width="${px * 0.4}" opacity="0.3" style="animation:pxLed 2.4s steps(1) infinite"/>`;
+  // status LED on the visor temple: amber when asleep or alert, cyan when chill
+  const led = `<rect x="${(36 + t) * px}" y="${(9 + HY + t) * px}" width="${px}" height="${px}" fill="${visorColor}" style="animation:pxLed 2.4s steps(1) infinite"/>`;
+  const ledRing = `<circle cx="${(36 + t) * px + px / 2}" cy="${(9 + HY + t) * px + px / 2}" r="${px * 2}" fill="none" stroke="${visorColor}" stroke-width="${px * 0.4}" opacity="0.3" style="animation:pxLed 2.4s steps(1) infinite"/>`;
+
+  // Battery / Energy bar indicator beside Nouri (when not cropped or waving)
+  let battSvg = '';
+  if (crop !== 'head' && pose !== 'wave') {
+    const bx = -14, by = 18;
+    const bh = 24, bw = 6;
+    const filledH = Math.max(2, Math.round((bh - 4) * Math.min(1, Math.max(0.1, battery))));
+    const bColor = battery > 0.5 ? PAL.C : battery > 0.25 ? PAL.A : '#FF5F6D';
+    battSvg = `
+    <g transform="translate(${bx} ${by})" opacity="0.75">
+      <rect x="1" y="-2" width="4" height="2" fill="${PAL.v}"/>
+      <rect x="0" y="0" width="${bw}" height="${bh}" rx="2" fill="${PAL.o}" stroke="${PAL.v}" stroke-width="1"/>
+      <rect x="1" y="${bh - 2 - filledH}" width="${bw - 2}" height="${filledH}" fill="${bColor}"/>
+    </g>`;
+  }
 
   const z = night
     ? [0, 1.4, 2.8, 4.2].map((d, i) => `<g style="animation:pxZ 3.6s linear ${d}s infinite;opacity:0"><path d="M${41 * px} ${(5 - i * 2) * px}h${i === 1 ? 3 * px : 2 * px}l-${i === 1 ? 3 * px : 2 * px} ${2 * px}h${i === 1 ? 3 * px : 2 * px}" stroke="${i === 1 ? PAL.P : PAL.C}" stroke-width="${i === 3 ? px * 0.3 : px * 0.6}" fill="none" stroke-linejoin="round"/></g>`).join('')
     : '';
 
-  const inner = `<g shape-rendering="crispEdges">${R(baseOut)}${legs}${tail}${eyes}${wave}${led}${ledRing}</g>`;
-  return pose === 'wave' || crop === 'head' ? `${inner}${z}` : `<g style="animation:pxFloat 4s ease-in-out infinite">${inner}</g>${z}`;
+  const inner = `<g shape-rendering="crispEdges">${battSvg}${R(baseOut)}${legs}${tail}${eyes}${wave}${led}${ledRing}</g>`;
+  const floating = pose === 'wave' || crop === 'head' ? `${inner}${z}` : `<g style="animation:pxFloat 4s ease-in-out infinite">${inner}</g>${z}`;
+  return `<g class="nouri-interactive">${floating}</g>`;
 }
 
 /** Face box in sprite space (for the liveness brackets). */

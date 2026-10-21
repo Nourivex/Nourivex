@@ -23,6 +23,10 @@ export function statsCard(s) {
   const into = s.xp - xpForLevel(s.level);
   const need = xpForLevel(s.level + 1) - xpForLevel(s.level);
   const pct = Math.max(0.02, Math.min(1, into / need));
+  const pctPercent = Math.round(pct * 100);
+  const totalBlocks = 14;
+  const filledBlocks = Math.round(pct * totalBlocks);
+  const xpBarAscii = '█'.repeat(filledBlocks) + '░'.repeat(Math.max(0, totalBlocks - filledBlocks));
   const R = 62, circ = 2 * Math.PI * R;
   const css = `@keyframes ring{from{stroke-dashoffset:${circ.toFixed(1)}}}
 .ring{stroke-dasharray:${circ.toFixed(1)};stroke-dashoffset:${(circ * (1 - pct)).toFixed(1)};animation:ring 1.6s cubic-bezier(.2,.7,.2,1) .3s both}
@@ -75,8 +79,12 @@ ${heading(t, { x: 40, y: 92, title: 'STATS', sub: 'live telemetry' })}
   ${t.text(String(s.level), { x: 0, y: 26, size: 48, style: 'disp700', fill: C.text, anchor: 'middle' })}
   ${sparkles}
 </g>
-${t.text(`${fmt(into)} / ${fmt(need)} XP`, { x: 140, y: 312, size: 12, style: 'mono500', fill: C.muted, anchor: 'middle' })}
-${t.text('INTO NEXT LEVEL', { x: 140, y: 328, size: 9, style: 'mono700', fill: C.dim, anchor: 'middle', ls: 1.5 })}
+${t.text(`${fmt(into)} / ${fmt(need)} XP`, { x: 140, y: 304, size: 11, style: 'mono500', fill: C.muted, anchor: 'middle' })}
+<g transform="translate(68 314)">
+  <rect width="144" height="6" rx="3" fill="${C.panel2}"/>
+  <rect width="${Math.round(144 * pct)}" height="6" rx="3" fill="${C.amber}" class="grow"/>
+</g>
+${t.text(`NEXT LV · ${pctPercent}%`, { x: 140, y: 330, size: 8.5, style: 'mono700', fill: C.dim, anchor: 'middle', ls: 1.2 })}
 ${tileSvg}
 ${t.text('LANGUAGES', { x: 736, y: 112, size: 10, style: 'mono700', fill: C.dim, ls: 1.6 })}
 <rect x="736" y="128" width="${barW}" height="12" rx="3" fill="${C.panel2}"/>
