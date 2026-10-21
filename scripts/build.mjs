@@ -127,18 +127,29 @@ ${cfg.name} — ${cfg.role} · ${cfg.focus}
 
 nouri@${host}:~$ cat nouri.txt
 N.O.U.R.I  =  Node Observability & Uptime Runtime Interface
-role     :  companion. keeps builds green, guards the p99.
-uptime   :  awake by day, asleep after ${String(from).padStart(2, '0')}:00 (${cfg.tzLabel})
+role     :  companion process. keeps builds green, guards the p99.
+uptime   :  online by day · hibernates after ${String(from).padStart(2, '0')}:00 ${cfg.tzLabel}
+traits   :  allergic to merge conflicts, unindexed queries, and TODO: fix later
 
-nouri@${host}:~$ ls ./secrets
-SECRET.md   nouri_sleep_schedule.txt   tabs_vs_spaces.verdict
+nouri@${host}:~$ ls -la ./stack/
+drwxr-xr-x  go/          node.js/     postgres/    docker/
+drwxr-xr-x  redis/        prisma/      typescript/  linux/
+drwxr-xr-x  python/       flutter/     fedora/      github/
+
+nouri@${host}:~$ cat ./quest_log.txt
+[ QUEST 01 ] MediCare-Bridge ............. IN PROGRESS
+[ QUEST 02 ] LaptopFinder Engine ......... IN PROGRESS
+[ NEXT    ] ??? .......................... LOCKED
 
 nouri@${host}:~$ sudo hire ${host}
 [sudo] password for recruiter: ********
-✓ permission granted — head back up to the SAVE POINT
+checking clearance..................... ✓
+validating stack alignment............. ✓
+confirming timezone compatibility...... ✓ (UTC+7 — responsive during business hours)
+✓ ACCESS GRANTED — head back up and hit the SAVE POINT
 
 nouri@${host}:~$ exit
-nouri: take care! visit at night — you might catch me hibernating.
+nouri: safe travels. drop by at night — the amber LED means i'm on standby, not gone.
 \`\`\`
 
 <kbd>↑</kbd> <kbd>↑</kbd> <kbd>↓</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> <kbd>←</kbd> <kbd>→</kbd> <kbd>B</kbd> <kbd>A</kbd>

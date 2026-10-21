@@ -28,6 +28,13 @@ export function statsCard(s) {
 .ring{stroke-dasharray:${circ.toFixed(1)};stroke-dashoffset:${(circ * (1 - pct)).toFixed(1)};animation:ring 1.6s cubic-bezier(.2,.7,.2,1) .3s both}
 @keyframes grow{from{transform:scaleX(0)}}.grow{transform-box:fill-box;transform-origin:left;animation:grow 1.2s cubic-bezier(.2,.7,.2,1) both}`;
 
+  const sparkles = s.level >= 5 ? [0, 60, 120, 180, 240, 300].map((deg, i) => {
+    const rad = (deg * Math.PI) / 180;
+    const rx = Math.round((R + 22) * Math.cos(rad));
+    const ry = Math.round((R + 22) * Math.sin(rad));
+    return `<circle cx="${rx}" cy="${ry}" r="2.5" fill="${C.amber}" opacity="0.6" style="animation:pulse ${1.5 + i * 0.2}s ease-in-out ${(i * 0.25).toFixed(2)}s infinite"/>`;
+  }).join('') : '';
+
   const tiles = [
     ['CONTRIBUTIONS', fmt(s.totals.contributionsYear), `this year`],
     ['COMMITS', fmt(s.totals.commitsYear), 'this year'],
@@ -66,8 +73,10 @@ ${heading(t, { x: 40, y: 92, title: 'STATS', sub: 'live telemetry' })}
   <circle r="${R}" stroke="${C.amber}" stroke-width="10" stroke-linecap="round" class="ring" transform="rotate(-90)"/>
   ${t.text('LEVEL', { x: 0, y: -18, size: 11, style: 'mono700', fill: C.dim, anchor: 'middle', ls: 2.5 })}
   ${t.text(String(s.level), { x: 0, y: 26, size: 48, style: 'disp700', fill: C.text, anchor: 'middle' })}
+  ${sparkles}
 </g>
 ${t.text(`${fmt(into)} / ${fmt(need)} XP`, { x: 140, y: 312, size: 12, style: 'mono500', fill: C.muted, anchor: 'middle' })}
+${t.text('INTO NEXT LEVEL', { x: 140, y: 328, size: 9, style: 'mono700', fill: C.dim, anchor: 'middle', ls: 1.5 })}
 ${tileSvg}
 ${t.text('LANGUAGES', { x: 736, y: 112, size: 10, style: 'mono700', fill: C.dim, ls: 1.6 })}
 <rect x="736" y="128" width="${barW}" height="12" rx="3" fill="${C.panel2}"/>
@@ -116,6 +125,8 @@ ${heading(t, { x: 40, y: 88, title: 'ACTIVITY', sub: 'contribution terrain' })}
 <path d="${ridge}" stroke="${C.cyan}" stroke-width="2.5" fill="none" class="a" style="animation:fadeIn 1s .6s both"/>
 <path d="M${x0} ${base}H${x1}" stroke="${C.line2}"/>
 ${months.map(({ i, m }) => t.text(m.toUpperCase(), { x: x0 + i * step, y: base + 22, size: 10, style: 'mono500', fill: C.dim, ls: 1 })).join('')}
+<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="5" fill="${C.amber}" opacity="0.8" class="a" style="animation:fadeIn .4s 1.2s both,pulse 1.8s ease-in-out 1.6s infinite"/>
+<circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="9" fill="none" stroke="${C.amber}" stroke-width="1.5" opacity="0.3" class="a" style="animation:fadeIn .4s 1.2s both,pulse 1.8s ease-in-out 1.8s infinite"/>
 <g class="a" style="animation:fadeIn .4s 1.2s both">
   <path d="M${px.toFixed(1)} ${(py - 6).toFixed(1)}V${(py - 32).toFixed(1)}" stroke="${C.amber}" stroke-width="2"/>
   <path d="M${px.toFixed(1)} ${(py - 32).toFixed(1)}h16l-5 6 5 6h-16Z" fill="${C.amber}"/>
@@ -174,6 +185,7 @@ ${list.map((a, i) => {
     return `<g class="a" style="animation:fadeUp .5s ${(0.1 + i * 0.06).toFixed(2)}s both">
 <rect x="${x}" y="${y}" width="221" height="74" rx="12" fill="${C.panel}" stroke="${a.unlocked ? C.amber : C.line}" stroke-opacity="${a.unlocked ? 0.45 : 1}" ${a.secret ? 'stroke-dasharray="4 4"' : ''}/>
 <circle cx="${x + 36}" cy="${y + 37}" r="22" fill="${col}" fill-opacity="${a.unlocked ? 0.12 : 0.06}"/>
+${a.unlocked ? `<circle cx="${x + 36}" cy="${y + 37}" r="26" fill="none" stroke="${col}" stroke-width="1.5" opacity="0.2" style="animation:pulse 2.5s ease-in-out ${(i * 0.15).toFixed(2)}s infinite"/>` : ''}
 <g transform="translate(${x + 36} ${y + 37})" fill="none">${BADGE[a.id](col)}</g>
 ${t.text(a.name, { x: x + 70, y: y + 30, size: 13, style: 'mono700', fill: a.unlocked ? C.text : C.muted, ls: 1.2 })}
 ${t.text(a.desc.length > 22 ? a.desc.slice(0, 21) + '…' : a.desc, { x: x + 70, y: y + 49, size: 11, fill: C.dim })}
@@ -203,11 +215,11 @@ export function demoStats() {
     playtime: '3y 4m',
     totals: { contributionsAllTime: 1120, contributionsYear: 412, commitsYear: 356, prsYear: 18, repos: 21, stars: 14 },
     languages: [
-      { name: 'TypeScript', color: '#3178C6', pct: 0.41 },
-      { name: 'Python', color: '#3572A5', pct: 0.29 },
-      { name: 'JavaScript', color: '#F1E05A', pct: 0.14 },
-      { name: 'C#', color: '#178600', pct: 0.1 },
-      { name: 'CSS', color: '#663399', pct: 0.06 },
+      { name: 'Go', color: '#00ADD8', pct: 0.38 },
+      { name: 'TypeScript', color: '#3178C6', pct: 0.28 },
+      { name: 'JavaScript', color: '#F1E05A', pct: 0.16 },
+      { name: 'Dart', color: '#0175C2', pct: 0.12 },
+      { name: 'Python', color: '#3572A5', pct: 0.06 },
     ],
     streak: { current: 5, longest: 12 },
     weeks,

@@ -43,13 +43,13 @@ export function buildHero(cfg, { mode = 'day', level = null } = {}) {
   // ---------- terminal lines ----------
   const lx = TX + 28, ly0 = TY + 62, lh = 21;
   const L = [
-    { p: '$', pc: C.cyan, s: `boot nourivex --user ${user}`, c: C.text },
-    { p: '[ ok ]', pc: C.green, s: 'kernel ........ backend · cloud', c: C.muted },
-    { p: '[ ok ]', pc: C.green, s: `quests ........ ${cfg.projects.length} loaded${level ? ` · player lv ${level}` : ''}`, c: C.muted },
-    { p: '[ ok ]', pc: C.green, s: 'stack ......... go · node · postgres · docker', c: C.muted },
+    { p: '$', pc: C.cyan, s: `boot nourivex --user ${user} --env production`, c: C.text },
+    { p: '[ ok ]', pc: C.green, s: `kernel ........ backend · cloud · v${new Date().getFullYear() - 2022}.0`, c: C.muted },
+    { p: '[ ok ]', pc: C.green, s: `quests ........ ${cfg.projects.length} active${level ? ` · xp unlocked lv ${level}` : ''}`, c: C.muted },
+    { p: '[ ok ]', pc: C.green, s: 'stack ......... go · node · postgres · docker · ready', c: C.muted },
     night
-      ? { p: '[ zz ]', pc: C.amber, s: 'companion ..... asleep, LED amber', c: C.muted }
-      : { p: '[ ok ]', pc: C.green, s: 'companion ..... online', c: C.muted },
+      ? { p: '[ zz ]', pc: C.amber, s: 'companion ..... offline · will resume at 06:00 UTC+7', c: C.muted }
+      : { p: '[ ok ]', pc: C.green, s: 'companion ..... nouri is online · liveness pending', c: C.muted },
   ];
   let tt = 0.2;
   const lines = L.map((r, i) => {
@@ -76,11 +76,18 @@ export function buildHero(cfg, { mode = 'day', level = null } = {}) {
     : `<g class="a" style="animation:fadeIn .01s ${checkAt}s both,out .01s ${blinkAt + 0.1}s forwards">${t.text('[ .. ]', { x: lx, y: yL, size: 14, style: 'mono700', fill: C.amber })}${t.text('liveness ...... waiting for a blink', { x: lx + pw + 10, y: yL, size: 14, fill: C.muted })}</g>
 <g class="a" style="animation:fadeIn .01s ${blinkAt + 0.1}s both">${t.text('[ ok ]', { x: lx, y: yL, size: 14, style: 'mono700', fill: C.green })}${t.text('liveness ...... blink detected — he is real', { x: lx + pw + 10, y: yL, size: 14, fill: C.text })}</g>`;
 
+  // progress bar: fills from 0 to 100% across the duration of all lines printing
+  const pbDur = (tt + 0.2).toFixed(2); // total boot duration
+  const pbX2 = TX + TW - 28 - 120; // 120px wide bar
+  const pbY2 = TY + 15;
+  const progressBar = `<rect x="${pbX2}" y="${pbY2}" width="120" height="6" rx="3" fill="${C.panel2}"/><rect x="${pbX2}" y="${pbY2}" width="0" height="6" rx="3" fill="${C.green}"><animate attributeName="width" from="0" to="120" dur="${pbDur}s" begin="0.2s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></rect>`;
+
   const panel = `
 <rect x="${TX}" y="${TY}" width="${TW}" height="${TH}" rx="12" fill="${C.panel}" stroke="${C.line2}" stroke-width="1.5"/>
 <path d="M${TX} ${TY + 34}H${TX + TW}" stroke="${C.line}"/>
 ${t.text('boot.log', { x: TX + 28, y: TY + 22, size: 13, style: 'mono500', fill: C.dim })}
 <g class="a" style="animation:fadeIn .2s ${spawnAt}s both">${t.text(night ? '◐ IDLE' : '● READY', { x: TX + 28 + t.measure('boot.log', { style: 'mono500', size: 13 }) + 16, y: TY + 22, size: 12, style: 'mono700', fill: night ? C.amber : C.green, ls: 1.5 })}</g>
+${progressBar}
 ${lines}
 ${liveness}`;
 
@@ -120,9 +127,16 @@ ${liveness}`;
   clips.push(tg.clip);
   const endX = 50 + t.measure(`> ${tag}`, { style: 'mono400', size: 17 }) + 6;
   const roleDot = oneLine ? `<circle cx="${50 + roleW + 14}" cy="${roleY - 9}" r="3.5" fill="${C.cyan}"/>` : '';
+  // Glitch overlay — 3 frames at the end of the name reveal
+  const glitchAt = (nameAt + 0.5).toFixed(2);
+  const glitchDur = 0.18;
+  const glitch1 = `<g style="animation:fadeIn .01s ${glitchAt}s both,out .01s ${(+glitchAt + glitchDur * 0.33).toFixed(2)}s forwards" opacity="0.6"><g clip-path="url(#hname)"><g transform="translate(3 0)">${t.text(name, { x: 46, y: nameY, size: nameSize, style: 'disp700', fill: C.cyan, ls: 2 })}</g></g></g>`;
+  const glitch2 = `<g style="animation:fadeIn .01s ${(+glitchAt + glitchDur * 0.33).toFixed(2)}s both,out .01s ${(+glitchAt + glitchDur * 0.66).toFixed(2)}s forwards" opacity="0.5"><g clip-path="url(#hname)"><g transform="translate(-2 0)">${t.text(name, { x: 46, y: nameY, size: nameSize, style: 'disp700', fill: C.sakura, ls: 2 })}</g></g></g>`;
   const identity = `
 <g class="a" style="animation:fadeIn .3s ${nameAt - 0.2}s both">${t.text(night ? '// PLAYER 01 · OFFLINE' : '// PLAYER 01', { x: 50, y: 112, size: 14, style: 'mono700', fill: C.amber, ls: 2.5 })}</g>
 <clipPath id="hname"><rect x="40" y="106" height="132" width="0"><animate attributeName="width" values="0;${Math.ceil(nameW) + 24}" dur=".5s" begin="${nameAt}s" fill="freeze" calcMode="spline" keySplines=".2 .7 .2 1"/></rect></clipPath>
+${glitch1}
+${glitch2}
 <g clip-path="url(#hname)">${t.text(name, { x: 46, y: nameY, size: nameSize, style: 'disp700', fill: C.text, ls: 2 })}</g>
 <g class="a" style="animation:fadeUp .5s ${nameAt + 0.3}s both">
   ${t.text(cfg.role, { x: 50, y: roleY, size: 26, style: 'disp500', fill: C.text })}

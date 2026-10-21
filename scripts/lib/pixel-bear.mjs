@@ -128,6 +128,8 @@ function drawHead(g, { tilt = 0 } = {}) {
   sp(8, 13, 34, 'v');
   sp(9, 11, 36, 'n'); sp(10, 11, 36, 'n'); sp(11, 14, 33, 'v');
   p(11, 9, 'C'); p(11, 10, 'C'); p(36, 9, 'v'); p(36, 10, 'v');
+  /* visor glass reflection glints — subtle highlight for depth */
+  p(15, 9, 'W'); p(16, 9, 'W');
 }
 
 /* ---------------- animated layers ---------------- */
@@ -223,6 +225,7 @@ export const bearPixelCss = `
 @keyframes pxHalf2{0%,49.9%{opacity:0}50%,100%{opacity:1}}
 @keyframes pxLed{0%,70%{opacity:1}71%,100%{opacity:.25}}
 @keyframes pxZ{0%{opacity:0;transform:translate(0,0)}20%{opacity:1}100%{opacity:0;transform:translate(12px,-40px)}}
+@keyframes pxFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-2px)}}
 `;
 
 /**
@@ -274,12 +277,14 @@ export function bearPixel({ px = 6, mode = 'day', pose = 'sit', blinkDelay = 0, 
 
   // status LED on the visor temple: neon cyan when online, amber when asleep
   const led = `<rect x="${(36 + t) * px}" y="${(9 + HY + t) * px}" width="${px}" height="${px}" fill="${night ? PAL.A : PAL.C}" style="animation:pxLed 2.4s steps(1) infinite"/>`;
+  const ledRing = `<circle cx="${(36 + t) * px + px / 2}" cy="${(9 + HY + t) * px + px / 2}" r="${px * 2}" fill="none" stroke="${night ? PAL.A : PAL.C}" stroke-width="${px * 0.4}" opacity="0.3" style="animation:pxLed 2.4s steps(1) infinite"/>`;
 
   const z = night
-    ? [0, 1.2, 2.4].map((d, i) => `<g style="animation:pxZ 3.6s linear ${d}s infinite;opacity:0"><path d="M${41 * px} ${(5 - i * 2) * px}h${2 * px}l-${2 * px} ${2 * px}h${2 * px}" stroke="${i === 1 ? PAL.P : PAL.C}" stroke-width="${px * 0.6}" fill="none" stroke-linejoin="round"/></g>`).join('')
+    ? [0, 1.4, 2.8, 4.2].map((d, i) => `<g style="animation:pxZ 3.6s linear ${d}s infinite;opacity:0"><path d="M${41 * px} ${(5 - i * 2) * px}h${i === 1 ? 3 * px : 2 * px}l-${i === 1 ? 3 * px : 2 * px} ${2 * px}h${i === 1 ? 3 * px : 2 * px}" stroke="${i === 1 ? PAL.P : PAL.C}" stroke-width="${i === 3 ? px * 0.3 : px * 0.6}" fill="none" stroke-linejoin="round"/></g>`).join('')
     : '';
 
-  return `<g shape-rendering="crispEdges">${R(baseOut)}${legs}${tail}${eyes}${wave}${led}</g>${z}`;
+  const inner = `<g shape-rendering="crispEdges">${R(baseOut)}${legs}${tail}${eyes}${wave}${led}${ledRing}</g>`;
+  return pose === 'wave' || crop === 'head' ? `${inner}${z}` : `<g style="animation:pxFloat 4s ease-in-out infinite">${inner}</g>${z}`;
 }
 
 /** Face box in sprite space (for the liveness brackets). */

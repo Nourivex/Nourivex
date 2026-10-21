@@ -71,7 +71,7 @@ export function aboutCard(cfg) {
     while (vs > 11 && t.measure(v, { style: 'disp500', size: vs }) > vMax) vs -= 1;
     return `<rect x="${x}" y="${y}" width="196" height="50" rx="10" fill="${C.panel}" stroke="${C.line}"/>
 ${t.text(k, { x: x + 14, y: y + 19, size: 11, style: 'mono700', fill: C.dim, ls: 2 })}
-${live ? `<circle cx="${x + 19}" cy="${y + 34}" r="4" fill="${C.green}"/>` : ''}
+${live ? `<circle cx="${x + 19}" cy="${y + 34}" r="4" fill="${C.green}"/><circle cx="${x + 19}" cy="${y + 34}" r="4" fill="${C.green}" opacity="0.4" style="animation:pulse 2s ease-in-out infinite"/>` : ''}
 ${t.text(v, { x: vx, y: y + 39, size: vs, style: 'disp500', fill: live ? C.green : C.text })}`;
   }).join('');
   const body = `
@@ -168,7 +168,7 @@ ${heading(t, { x: 8, y: 52, title: 'QUEST LOG', sub: 'featured projects' })}
 ${t.text(`${cfg.projects.length} QUESTS · ${done} CLEARED`, { x: W - 8, y: 48, size: 13, style: 'mono700', fill: C.amber, anchor: 'end', ls: 2 })}
 <path d="M8 76H${W - 8}" stroke="${C.line2}"/>
 <path d="M8 76H140" stroke="${C.cyan}" stroke-width="2.5" stroke-linecap="round"/>
-${t.text('every quest lists its boss — the hardest problem it had to solve', { x: 8, y: 94, size: 12, fill: C.dim })}`;
+${t.text('each quest lists its boss — the real engineering problem behind the feature', { x: 8, y: 94, size: 12, fill: C.dim })}`;
   return svgDoc({ w: W, h: h + 6, title: 'Quest log — featured projects', body, typo: t });
 }
 
@@ -195,6 +195,11 @@ export function questCard(cfg, p) {
     return c.svg;
   }).join('');
   const stLabel = `${st.glyph} ${p.status}`;
+  const bLen = 20, bCol = C.cyan, bOp = 0.4;
+  const brackets = `<g stroke="${bCol}" stroke-width="2" stroke-linecap="round" fill="none" opacity="${bOp}">
+<path d="M${1+bLen} 1H1V${1+bLen}"/><path d="M${w-1-bLen} 1H${w-1}V${1+bLen}"/>
+<path d="M${w-1} ${h-1-bLen}V${h-1}H${w-1-bLen}"/><path d="M${1+bLen} ${h-1}H1V${h-1-bLen}"/>
+</g>`;
   const body = `
 <rect x="1" y="1" width="${w - 2}" height="${h - 2}" rx="18" fill="${C.void}"/>
 <rect x="1" y="1" width="${w - 2}" height="${h - 2}" rx="18" stroke="${C.line2}" stroke-width="1.5"/>
@@ -208,6 +213,7 @@ ${chip(t, { x: w - 22, y: 17, label: p.type, color: p.type === 'MAIN' ? C.cyan :
   <rect width="454" height="140" rx="12" stroke="${C.line}"/>
   <rect x="418" y="10" width="26" height="26" rx="7" fill="${C.void}" fill-opacity=".7"/>${ui('arrow', 422, 14, 18, C.muted)}
 </g>
+${brackets}
 ${t.text(p.title, { x: 22, y: 222, size: 26, style: 'disp700', fill: C.text })}
 ${summary.map((l, i) => t.text(l, { x: 22, y: sy + 14 + i * 21, size: 15, style: 'disp500', fill: C.muted })).join('')}
 <rect x="22" y="${by}" width="446" height="62" rx="10" fill="${C.red}" fill-opacity=".05" stroke="${C.red}" stroke-opacity=".22"/>
@@ -242,11 +248,13 @@ ${t.text(label, { x: 50, y: y + 20, size: 12, style: 'mono500', fill: C.text })}
 @keyframes mdHit{0%,44%{opacity:0;transform:scale(.5)}50%,60%{opacity:1;transform:scale(1)}68%,100%{opacity:0}}
 @keyframes mdBar{0%,54%{transform:scaleX(0)}70%,86%{transform:scaleX(.68)}92%,100%{transform:scaleX(0)}}
 @keyframes mdV{0%,58%{opacity:0}64%,86%{opacity:1}92%,100%{opacity:0}}
+@keyframes mdSafe{0%,70%{opacity:0}76%,86%{opacity:1}92%,100%{opacity:0}}
 .mdA{animation:mdA 7s infinite both}.mdB{animation:mdB 7s infinite both}
 .mdS{animation:mdScan 3.2s ease-in-out infinite}
 .mdH{transform-box:fill-box;transform-origin:center;animation:mdHit 7s infinite both}
 .mdBar{transform-box:fill-box;transform-origin:left;animation:mdBar 7s cubic-bezier(.2,.7,.2,1) infinite}
-.mdV{animation:mdV 7s infinite both}`;
+.mdV{animation:mdV 7s infinite both}
+.mdSafe{animation:mdSafe 7s infinite both}`;
     const svg = `
 ${med(24, 'amoxicillin', 'mdA', C.cyan)}
 ${med(66, 'warfarin', 'mdB', C.sakura)}
@@ -258,7 +266,8 @@ ${t.text('INTERACTION ENGINE', { x: 214, y: 34, size: 10, style: 'mono700', fill
 <rect x="214" y="44" width="220" height="10" rx="5" fill="${C.amber}" class="mdBar"/>
 <g class="mdV">${t.text('severity · moderate', { x: 434, y: 74, size: 12, style: 'mono700', fill: C.amber, anchor: 'end' })}</g>
 ${t.text('MATCHED RULES', { x: 214, y: 90, size: 10, style: 'mono700', fill: C.dim, ls: 1.5 })}
-${['CYP2C9', 'BLEED', 'QT'].map((r, i) => `<g class="mdV" style="animation-delay:${(i * 0.12).toFixed(2)}s">${chip(t, { x: 214 + i * 74, y: 98, label: r, color: C.green, size: 11, h: 24, padX: 12 }).svg}</g>`).join('')}`;
+${['CYP2C9', 'BLEED', 'QT'].map((r, i) => `<g class="mdV" style="animation-delay:${(i * 0.12).toFixed(2)}s">${chip(t, { x: 214 + i * 74, y: 98, label: r, color: C.green, size: 11, h: 24, padX: 12 }).svg}</g>`).join('')}
+<g class="mdSafe">${t.text('verdict: flag prescription', { x: 434, y: 122, size: 10, style: 'mono700', fill: C.red, anchor: 'end' })}</g>`;
     return { css, svg };
   },
 
@@ -285,6 +294,7 @@ ${t.text(k, { x: 166, y: y + 8, size: 11, style: 'mono500', fill: C.muted })}`;
       return `<g class="lfR" style="animation-delay:${(i * 0.2).toFixed(2)}s">
 <rect x="244" y="${y}" width="192" height="24" rx="7" fill="${C.panel2}" stroke="${i === 0 ? C.green : C.line2}"/>
 <circle cx="260" cy="${y + 12}" r="8" fill="${i === 0 ? C.green : C.line}" fill-opacity="${i === 0 ? '.2' : '1'}"/>
+${i === 0 ? `<path d="M260 ${y+7}l1.5 3h3.2l-2.6 1.9.9 3-2.9-1.8-2.9 1.8.9-3-2.6-1.9h3.2z" fill="${C.amber}"/>` : ''}
 ${t.text(n, { x: 254, y: y + 16, size: 9, style: 'mono700', fill: col })}
 ${t.text(name, { x: 278, y: y + 16, size: 12, style: 'mono500', fill: C.text })}
 ${t.text(s.toFixed(2), { x: 428, y: y + 16, size: 11, style: 'mono700', fill: col, anchor: 'end' })}</g>`;
@@ -320,7 +330,7 @@ ${frame(t, { w: W, h, title: 'save.dat', tag: 'AUTOSAVE ✓', tagColor: C.green,
 <g shape-rendering="crispEdges">${tiles}</g>
 <g transform="translate(78 ${ledge - LEDGE * PX})">${bearPixel({ px: PX, pose: 'wave' })}</g>
 ${heading(t, { x: 360, y: 108, title: 'SAVE POINT', sub: "let's build something" })}
-${wrap(t, 'Progress saved. If you have a project, a role, or just a cool idea — my inbox is the next level.', { size: 18, maxW: 590 }).map((l, i) => t.text(l, { x: 360, y: 148 + i * 27, size: 18, style: 'disp500', fill: C.text })).join('')}
+${wrap(t, 'Progress saved. Got a project, a role, or a crazy idea? Drop it — Nouri logs everything and I read it all.', { size: 18, maxW: 590 }).map((l, i) => t.text(l, { x: 360, y: 148 + i * 27, size: 18, style: 'disp500', fill: C.text })).join('')}
 <rect x="360" y="${h - 100}" width="600" height="60" rx="12" fill="${C.panel}" stroke="${C.line2}"/>
 ${slot.map(([k, v], i) => `${t.text(k, { x: 378 + i * 148, y: h - 76, size: 10.5, style: 'mono700', fill: C.dim, ls: 2 })}${t.text(v, { x: 378 + i * 148, y: h - 54, size: 15, style: 'disp700', fill: i === 1 ? C.amber : C.text })}`).join('')}`;
   return svgDoc({ w: W, h, title: 'Save point — contact', desc: 'Contact section. Nouri waves from a save platform — get in touch via the buttons below.', css: bearPixelCss, defs: gridPattern('sgrid', 28), body, typo: t });
@@ -350,7 +360,8 @@ export function footer() {
 ${t.text('END OF TRANSMISSION', { x: 500, y: 45, size: 12, style: 'mono700', fill: C.dim, anchor: 'middle', ls: 3 })}
 <clipPath id="fclip"><rect x="0" y="0" width="${w}" height="${line}"/></clipPath>
 <g clip-path="url(#fclip)"><g transform="translate(856 ${line - 17 * PX})">${bearPixel({ px: PX, crop: 'head' })}</g></g>
-<path d="M640 ${line}H992" stroke="${C.line2}" stroke-width="1.5"/>`;
+<path d="M640 ${line}H992" stroke="${C.line2}" stroke-width="1.5"/>
+${t.text('psst', { x: 920, y: line + 16, size: 10, style: 'mono500', fill: C.dim })}`;
   return svgDoc({ w, h, title: 'End of transmission', desc: 'Something is peeking from the corner…', css: bearPixelCss, body, typo: t });
 }
 
