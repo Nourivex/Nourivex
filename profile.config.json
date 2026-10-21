@@ -15,7 +15,7 @@
   },
 
   "about": {
-    "bio": "I build backend systems and cloud-native services — APIs, data layers, and agentic workflows engineered to stay reliable when real traffic shows up.",
+    "bio": "I build backend systems and cloud-native services, crafting APIs, data layers, and agentic workflows engineered to stay reliable under real traffic.",
     "class": "Backend Systems Engineer",
     "subclass": "Cloud Architecture",
     "main": "Go · Node.js · Express",
@@ -26,7 +26,7 @@
 
   "currentQuest": {
     "title": "MediCare-Bridge",
-    "phase": "active build · DDI engine guarding every prescription"
+    "phase": "active build: DDI engine guarding every prescription"
   },
 
   "stack": [
@@ -43,7 +43,7 @@
       "quest": "QUEST 01",
       "type": "MAIN",
       "title": "MediCare-Bridge",
-      "summary": "Cross-platform medication safety platform — a DDI checker engine that flags dangerous prescription combinations before they reach a patient.",
+      "summary": "Cross-platform medication safety platform with a DDI checker engine that flags dangerous prescription combinations before reaching patients.",
       "boss": "Silent drug-drug interactions that slip past manual review",
       "win": "DDI engine catches conflicts before prescription is signed",
       "tech": ["Node.js", "Express", "Prisma", "PostgreSQL", "Flutter"],
@@ -55,8 +55,8 @@
       "quest": "QUEST 02",
       "type": "MAIN",
       "title": "LaptopFinder Engine",
-      "summary": "Decision support platform that ranks laptops against user priorities using a weighted SAW matrix — no sponsored results, pure math.",
-      "boss": "Spec sheet overload — too many options, no clear winner",
+      "summary": "Decision support platform ranking laptops against user priorities via weighted SAW matrix with zero sponsored bias.",
+      "boss": "Spec sheet overload with too many options and no clear winner",
       "win": "SAW-weighted matrix surfaces the right machine for each use case",
       "tech": ["Node.js", "SAW", "Next.js", "PostgreSQL"],
       "status": "IN PROGRESS",

@@ -28,27 +28,27 @@
 </p>
 
 <p align="center">
-  <b>Backend Systems Engineer</b> from Indonesia — Systems that hold. Deploys that ship. Nouri keeps watch.<br>
+  <b>Backend Systems Engineer</b> from Indonesia · Systems that hold. Deploys that ship. Nouri keeps watch.<br>
   <sub>Go · Node.js · Express · Cloud Architecture & Agentic Workflows · Open to collaborate</sub>
 </p>
 
 <a name="about"></a>
 
-<img src="assets/about.svg" width="100%" alt="About — I build backend systems and cloud-native services — APIs, data layers, and agentic workflows engineered to stay reliable when real traffic shows up.">
+<img src="assets/about.svg" width="100%" alt="About — I build backend systems and cloud-native services, crafting APIs, data layers, and agentic workflows engineered to stay reliable under real traffic.">
 
 <a name="loadout"></a>
 
 <img src="assets/loadout.svg" width="100%" alt="Tech stack: go, nodedotjs, express, postgresql, mysql, redis, prisma, typescript, docker, git, linux, github, python, flutter, fedora">
 
-<img src="assets/now-running.svg" width="100%" alt="Now building: MediCare-Bridge — active build · DDI engine guarding every prescription">
+<img src="assets/now-running.svg" width="100%" alt="Now building: MediCare-Bridge — active build: DDI engine guarding every prescription">
 
 <a name="quests"></a>
 
 <img src="assets/quest-header.svg" width="100%" alt="Quest log — featured projects">
 
 <p align="center">
-  <a href="https://github.com/Nourivex/MediCare-Bridge"><img src="assets/quest-medicare.svg" width="49%" alt="QUEST 01: MediCare-Bridge — Cross-platform medication safety platform — a DDI checker engine that flags dangerous prescription combinations before they reach a patient."></a>
-  <a href="https://github.com/Nourivex/LaptopFinder"><img src="assets/quest-laptopfinder.svg" width="49%" alt="QUEST 02: LaptopFinder Engine — Decision support platform that ranks laptops against user priorities using a weighted SAW matrix — no sponsored results, pure math."></a>
+  <a href="https://github.com/Nourivex/MediCare-Bridge"><img src="assets/quest-medicare.svg" width="49%" alt="QUEST 01: MediCare-Bridge — Cross-platform medication safety platform with a DDI checker engine that flags dangerous prescription combinations before reaching patients."></a>
+  <a href="https://github.com/Nourivex/LaptopFinder"><img src="assets/quest-laptopfinder.svg" width="49%" alt="QUEST 02: LaptopFinder Engine — Decision support platform ranking laptops against user priorities via weighted SAW matrix with zero sponsored bias."></a>
 </p>
 
 <a name="stats"></a>
@@ -95,7 +95,7 @@ nouri@nourivex:~$ cat ./quest_log.txt
 nouri@nourivex:~$ nouri --inspect
 [ DIAGNOSTICS: NOURI COMPANION CORE ]
 • firmware : v2.4.0-cyber-arctic
-• visor-mode : CHILL (cyan)
+• visor-mode : ALERT (amber)
 • energy    : 75% (auto-sync: day 3)
 • uptime    : 964 days, 12 hrs
 • easter-egg: visit SECRET.md for Curious Cat achievement
@@ -104,11 +104,11 @@ nouri@nourivex:~$ sudo hire nourivex
 [sudo] password for recruiter: ********
 checking clearance..................... ✓
 validating stack alignment............. ✓
-confirming timezone compatibility...... ✓ (UTC+7 — responsive during business hours)
-✓ ACCESS GRANTED — head back up and hit the SAVE POINT
+confirming timezone compatibility...... ✓ (UTC+7, responsive during business hours)
+✓ ACCESS GRANTED: head back up and hit the SAVE POINT
 
 nouri@nourivex:~$ exit
-nouri: safe travels. drop by at night — the amber LED means i'm on standby, not gone.
+nouri: safe travels. Drop by at night, the amber LED means standby mode.
 ```
 
 <kbd>↑</kbd> <kbd>↑</kbd> <kbd>↓</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> <kbd>←</kbd> <kbd>→</kbd> <kbd>B</kbd> <kbd>A</kbd>

@@ -138,7 +138,7 @@ export function nowRunning(cfg) {
   const titleW = t.measure(q.title, { style: 'disp700', size: 24 });
   const phaseX = 28 + titleW + 14;
   const phaseMax = (W - 300) - 16 - phaseX;
-  let phase = `— ${q.phase}`;
+  let phase = `: ${q.phase}`;
   if (t.measure(phase, { style: 'disp500', size: 16 }) > phaseMax) {
     while (phase.length > 4 && t.measure(phase + '…', { style: 'disp500', size: 16 }) > phaseMax) phase = phase.slice(0, -1);
     phase += '…';
@@ -321,7 +321,7 @@ export function savePoint(cfg, stats) {
   const PX = 4, ledge = 252;
   const slot = [
     ['FILE 01', cfg.name.toUpperCase()],
-    ['LEVEL', stats?.level ? `LV ${stats.level}` : '—'],
+    ['LEVEL', stats?.level ? `LV ${stats.level}` : 'NONE'],
     ['QUESTS', `${cfg.projects.length} logged`],
     ['PLAYTIME', stats?.playtime || 'since day one'],
   ];
@@ -332,7 +332,7 @@ ${frame(t, { w: W, h, title: 'save.dat', tag: 'AUTOSAVE ✓', tagColor: C.green,
 <g shape-rendering="crispEdges">${tiles}</g>
 <g transform="translate(78 ${ledge - LEDGE * PX})">${bearPixel({ px: PX, pose: 'wave' })}</g>
 ${heading(t, { x: 360, y: 108, title: 'SAVE POINT', sub: "let's build something" })}
-${wrap(t, 'Progress saved. Got a project, a role, or a crazy idea? Drop it — Nouri logs everything and I read it all.', { size: 18, maxW: 590 }).map((l, i) => t.text(l, { x: 360, y: 148 + i * 27, size: 18, style: 'disp500', fill: C.text })).join('')}
+${wrap(t, 'Progress saved. Got a project, a role, or an ambitious idea? Drop a line, Nouri logs everything and I read every message.', { size: 18, maxW: 590 }).map((l, i) => t.text(l, { x: 360, y: 148 + i * 27, size: 18, style: 'disp500', fill: C.text })).join('')}
 <rect x="360" y="${h - 100}" width="600" height="60" rx="12" fill="${C.panel}" stroke="${C.line2}"/>
 ${slot.map(([k, v], i) => `${t.text(k, { x: 378 + i * 148, y: h - 76, size: 10.5, style: 'mono700', fill: C.dim, ls: 2 })}${t.text(v, { x: 378 + i * 148, y: h - 54, size: 15, style: 'disp700', fill: i === 1 ? C.amber : C.text })}`).join('')}`;
   return svgDoc({ w: W, h, title: 'Save point — contact', desc: 'Contact section. Nouri waves from a save platform — get in touch via the buttons below.', css: bearPixelCss, defs: gridPattern('sgrid', 28), body, typo: t });

@@ -118,7 +118,7 @@ ${liveness}`;
   let nameSize = 92;
   while (nameSize > 40 && t.measure(name, { style: 'disp700', size: nameSize, ls: 2 }) > nameMaxW) nameSize -= 2;
   const nameW = t.measure(name, { style: 'disp700', size: nameSize, ls: 2 });
-  const tag = night ? `${user} is probably asleep — leave a message` : cfg.tagline;
+  const tag = night ? `${user} is probably offline, leave a message` : cfg.tagline;
   const roleY = nameY + 42;
   const roleW = t.measure(cfg.role, { style: 'disp500', size: 26 });
   const focusW = t.measure(cfg.focus, { style: 'disp500', size: 26 });

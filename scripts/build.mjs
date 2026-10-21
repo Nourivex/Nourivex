@@ -95,7 +95,7 @@ ${DOCK.map((d) => `  <a href="#${d.key}"><img src="assets/dock-${d.key}.svg" wid
 </p>
 
 <p align="center">
-  <b>${cfg.role}</b> from ${cfg.about.base?.split(' ·')[0] || 'Indonesia'} — ${cfg.tagline}<br>
+  <b>${cfg.role}</b> from ${cfg.about.base?.split(' ·')[0] || 'Indonesia'} · ${cfg.tagline}<br>
   <sub>${cfg.about.main} · ${cfg.focus} · ${cfg.about.status}</sub>
 </p>
 
@@ -168,11 +168,11 @@ nouri@${host}:~$ sudo hire ${host}
 [sudo] password for recruiter: ********
 checking clearance..................... ✓
 validating stack alignment............. ✓
-confirming timezone compatibility...... ✓ (UTC+7 — responsive during business hours)
-✓ ACCESS GRANTED — head back up and hit the SAVE POINT
+confirming timezone compatibility...... ✓ (UTC+7, responsive during business hours)
+✓ ACCESS GRANTED: head back up and hit the SAVE POINT
 
 nouri@${host}:~$ exit
-nouri: safe travels. drop by at night — the amber LED means i'm on standby, not gone.
+nouri: safe travels. Drop by at night, the amber LED means standby mode.
 \`\`\`
 
 <kbd>↑</kbd> <kbd>↑</kbd> <kbd>↓</kbd> <kbd>↓</kbd> <kbd>←</kbd> <kbd>→</kbd> <kbd>←</kbd> <kbd>→</kbd> <kbd>B</kbd> <kbd>A</kbd>
