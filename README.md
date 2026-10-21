@@ -47,8 +47,8 @@
 <img src="assets/quest-header.svg" width="100%" alt="Quest log — featured projects">
 
 <p align="center">
-  <a href="https://github.com/Nourivex/MediCare-Bridge"><img src="assets/quest-medicare.svg" width="49%" alt="QUEST 01: MediCare-Bridge — Cross-platform medication safety platform with a DDI checker engine that flags dangerous prescription combinations before reaching patients."></a>
-  <a href="https://github.com/Nourivex/LaptopFinder"><img src="assets/quest-laptopfinder.svg" width="49%" alt="QUEST 02: LaptopFinder Engine — Decision support platform ranking laptops against user priorities via weighted SAW matrix with zero sponsored bias."></a>
+  <a href="https://github.com/nourivex/MediCare-Bridge"><img src="assets/quest-medicare.svg" width="49%" alt="QUEST 01: MediCare-Bridge — Cross-platform medication safety platform with a DDI checker engine that flags dangerous prescription combinations before reaching patients."></a>
+  <a href="https://github.com/nourivex/LaptopFinder"><img src="assets/quest-laptopfinder.svg" width="49%" alt="QUEST 02: LaptopFinder Engine — Decision support platform ranking laptops against user priorities via weighted SAW matrix with zero sponsored bias."></a>
 </p>
 
 <a name="stats"></a>
@@ -95,7 +95,7 @@ nouri@nourivex:~$ cat ./quest_log.txt
 nouri@nourivex:~$ nouri --inspect
 [ DIAGNOSTICS: NOURI COMPANION CORE ]
 • firmware : v2.4.0-cyber-arctic
-• visor-mode : CHILL (cyan)
+• visor-mode : ALERT (amber)
 • energy    : 75% (auto-sync: day 3)
 • uptime    : 964 days, 12 hrs
 • easter-egg: visit SECRET.md for Curious Cat achievement
