@@ -95,7 +95,7 @@ nouri@nourivex:~$ cat ./quest_log.txt
 nouri@nourivex:~$ nouri --inspect
 [ DIAGNOSTICS: NOURI COMPANION CORE ]
 • firmware : v2.4.0-cyber-arctic
-• visor-mode : ALERT (amber)
+• visor-mode : CHILL (cyan)
 • energy    : 75% (auto-sync: day 3)
 • uptime    : 964 days, 11 hrs
 • easter-egg: visit SECRET.md for Curious Cat achievement
