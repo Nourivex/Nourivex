@@ -97,7 +97,7 @@ nouri@nourivex:~$ nouri --inspect
 • firmware : v2.4.0-cyber-arctic
 • visor-mode : CHILL (cyan)
 • energy    : 100% (auto-sync: day 1)
-• uptime    : 969 days, 0 hrs
+• uptime    : 969 days, 20 hrs
 • easter-egg: visit SECRET.md for Curious Cat achievement
 
 nouri@nourivex:~$ sudo hire nourivex
