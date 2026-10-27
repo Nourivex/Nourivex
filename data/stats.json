@@ -1,12 +1,12 @@
 {
   "demo": false,
-  "generatedAt": "2026-10-27T01:47:48.835Z",
+  "generatedAt": "2026-10-27T19:45:22.921Z",
   "login": "nourivex",
   "playtime": "0y 11m",
   "totals": {
-    "contributionsAllTime": 571,
-    "contributionsYear": 571,
-    "commitsYear": 513,
+    "contributionsAllTime": 573,
+    "contributionsYear": 573,
+    "commitsYear": 515,
     "prsYear": 3,
     "issuesYear": 0,
     "reviewsYear": 0,
@@ -17,87 +17,87 @@
     {
       "name": "TypeScript",
       "color": "#3178c6",
-      "pct": 0.30607197290085847
+      "pct": 0.3051833911040243
     },
     {
       "name": "Python",
       "color": "#3572A5",
-      "pct": 0.23405780224001047
+      "pct": 0.23337829048822764
     },
     {
       "name": "Vue",
       "color": "#41b883",
-      "pct": 0.16334778457435578
+      "pct": 0.16287355667772646
     },
     {
       "name": "CSS",
       "color": "#663399",
-      "pct": 0.10705659138673346
+      "pct": 0.10674578691340725
     },
     {
       "name": "JavaScript",
       "color": "#f1e05a",
-      "pct": 0.06961943249254623
+      "pct": 0.06941731480162378
     },
     {
       "name": "PHP",
       "color": "#4F5D95",
-      "pct": 0.04205202174360148
+      "pct": 0.044833116424454394
     },
     {
       "name": "Svelte",
       "color": "#ff3e00",
-      "pct": 0.025249083006784318
+      "pct": 0.02517578039323907
     },
     {
       "name": "Dart",
       "color": "#00B4AB",
-      "pct": 0.01822463575653813
+      "pct": 0.018171726372403052
     },
     {
       "name": "HTML",
       "color": "#e34c26",
-      "pct": 0.011391963693470246
+      "pct": 0.0113588907810037
     },
     {
       "name": "Blade",
       "color": "#f7523f",
-      "pct": 0.007092957846233892
+      "pct": 0.007072365718283918
     },
     {
       "name": "Shell",
       "color": "#89e051",
-      "pct": 0.005678479636825739
+      "pct": 0.005661993992644881
     },
     {
       "name": "Batchfile",
       "color": "#C1F12E",
-      "pct": 0.005601115782907219
+      "pct": 0.005584854739860772
     },
     {
       "name": "PowerShell",
       "color": "#012456",
-      "pct": 0.002483951767450793
+      "pct": 0.0024767404102531646
     },
     {
       "name": "PLpgSQL",
       "color": "#336790",
-      "pct": 0.0013693946959450717
+      "pct": 0.0013654190976961846
     },
     {
       "name": "Rust",
       "color": "#dea584",
-      "pct": 0.0006848335519407023
+      "pct": 0.0006828453573917263
     },
     {
       "name": "Kotlin",
       "color": "#A97BFF",
-      "pct": 0.00001797892379796593
+      "pct": 0.000017926727759687326
     }
   ],
   "streak": {
-    "current": 6,
-    "longest": 6
+    "current": 7,
+    "longest": 7
   },
   "weeks": [
     {
@@ -310,9 +310,9 @@
     },
     {
       "start": "2026-10-25",
-      "count": 5
+      "count": 7
     }
   ],
-  "xp": 6210,
+  "xp": 6230,
   "level": 8
 }
