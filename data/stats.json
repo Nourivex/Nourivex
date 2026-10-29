@@ -1,128 +1,198 @@
 {
   "demo": false,
-  "generatedAt": "2026-10-29T02:04:18.635Z",
+  "generatedAt": "2026-10-29T04:53:38.362Z",
   "login": "nourivex",
   "playtime": "0y 11m",
   "totals": {
-    "contributionsAllTime": 585,
-    "contributionsYear": 585,
-    "commitsYear": 527,
-    "prsYear": 3,
-    "issuesYear": 0,
+    "contributionsAllTime": 2861,
+    "contributionsYear": 2790,
+    "commitsYear": 532,
+    "prsYear": 5,
+    "issuesYear": 1,
     "reviewsYear": 0,
-    "repos": 30,
-    "stars": 10
+    "repos": 88,
+    "stars": 76
   },
   "languages": [
     {
-      "name": "TypeScript",
-      "color": "#3178c6",
-      "pct": 0.30779719640838277
-    },
-    {
       "name": "Python",
       "color": "#3572A5",
-      "pct": 0.23537710638510032
+      "pct": 0.3677685338645112
     },
     {
-      "name": "Vue",
-      "color": "#41b883",
-      "pct": 0.1642685204234398
-    },
-    {
-      "name": "CSS",
-      "color": "#663399",
-      "pct": 0.10766003294443414
-    },
-    {
-      "name": "JavaScript",
-      "color": "#f1e05a",
-      "pct": 0.061447149879095074
+      "name": "TypeScript",
+      "color": "#3178c6",
+      "pct": 0.1953531230412496
     },
     {
       "name": "PHP",
       "color": "#4F5D95",
-      "pct": 0.04521709878043135
+      "pct": 0.0783824134496695
     },
     {
-      "name": "Svelte",
-      "color": "#ff3e00",
-      "pct": 0.0253914034915183
+      "name": "Vue",
+      "color": "#41b883",
+      "pct": 0.06699431073135655
     },
     {
-      "name": "Dart",
-      "color": "#00B4AB",
-      "pct": 0.018327361823630303
+      "name": "JavaScript",
+      "color": "#f1e05a",
+      "pct": 0.053661733659935935
     },
     {
-      "name": "HTML",
-      "color": "#e34c26",
-      "pct": 0.011456176314359922
+      "name": "C",
+      "color": "#555555",
+      "pct": 0.04975600939815652
+    },
+    {
+      "name": "CSS",
+      "color": "#663399",
+      "pct": 0.04936440352084783
     },
     {
       "name": "Blade",
       "color": "#f7523f",
-      "pct": 0.007132938434780512
+      "pct": 0.04431106782900277
+    },
+    {
+      "name": "HTML",
+      "color": "#e34c26",
+      "pct": 0.020383021022799375
     },
     {
       "name": "Shell",
       "color": "#89e051",
-      "pct": 0.005710487293272032
-    },
-    {
-      "name": "Batchfile",
-      "color": "#C1F12E",
-      "pct": 0.00563268736564788
-    },
-    {
-      "name": "PowerShell",
-      "color": "#012456",
-      "pct": 0.0024979529578902414
-    },
-    {
-      "name": "PLpgSQL",
-      "color": "#336790",
-      "pct": 0.001377113507628913
-    },
-    {
-      "name": "Rust",
-      "color": "#dea584",
-      "pct": 0.0006886937255180201
+      "pct": 0.01838610503324348
     },
     {
       "name": "Kotlin",
       "color": "#A97BFF",
-      "pct": 0.000018080264870401484
+      "pct": 0.013274319268143556
+    },
+    {
+      "name": "Dart",
+      "color": "#00B4AB",
+      "pct": 0.010699103252823484
+    },
+    {
+      "name": "Svelte",
+      "color": "#ff3e00",
+      "pct": 0.008910607919215847
+    },
+    {
+      "name": "Lua",
+      "color": "#000080",
+      "pct": 0.007241944849279564
+    },
+    {
+      "name": "CMake",
+      "color": "#DA3434",
+      "pct": 0.003300314169143745
+    },
+    {
+      "name": "Batchfile",
+      "color": "#C1F12E",
+      "pct": 0.0023500198038077145
+    },
+    {
+      "name": "PowerShell",
+      "color": "#012456",
+      "pct": 0.0016065598671029914
+    },
+    {
+      "name": "M4",
+      "color": null,
+      "pct": 0.0015989652029794155
+    },
+    {
+      "name": "C++",
+      "color": "#f34b7d",
+      "pct": 0.0012400452218987814
+    },
+    {
+      "name": "GDScript",
+      "color": "#355570",
+      "pct": 0.0011016108378741093
+    },
+    {
+      "name": "Java",
+      "color": "#b07219",
+      "pct": 0.001065608284528804
+    },
+    {
+      "name": "GDB",
+      "color": null,
+      "pct": 0.0007927291185190597
+    },
+    {
+      "name": "Makefile",
+      "color": "#427819",
+      "pct": 0.0006265597901950002
+    },
+    {
+      "name": "DTrace",
+      "color": null,
+      "pct": 0.0005969502136119454
+    },
+    {
+      "name": "PLpgSQL",
+      "color": "#336790",
+      "pct": 0.000483270589230574
+    },
+    {
+      "name": "Smarty",
+      "color": "#f0c040",
+      "pct": 0.00035195019438494755
+    },
+    {
+      "name": "Rust",
+      "color": "#dea584",
+      "pct": 0.00024168336210974
+    },
+    {
+      "name": "Swift",
+      "color": "#F05138",
+      "pct": 0.00011565039165394481
+    },
+    {
+      "name": "Procfile",
+      "color": "#3B2F63",
+      "pct": 0.00003955954793482817
+    },
+    {
+      "name": "Objective-C",
+      "color": "#438eff",
+      "pct": 0.0000018265647892144233
     }
   ],
   "streak": {
     "current": 9,
-    "longest": 9
+    "longest": 39
   },
   "weeks": [
     {
       "start": "2025-10-26",
-      "count": 0
-    },
-    {
-      "start": "2025-11-02",
-      "count": 0
-    },
-    {
-      "start": "2025-11-09",
-      "count": 0
-    },
-    {
-      "start": "2025-11-16",
       "count": 1
     },
     {
+      "start": "2025-11-02",
+      "count": 4
+    },
+    {
+      "start": "2025-11-09",
+      "count": 2
+    },
+    {
+      "start": "2025-11-16",
+      "count": 5
+    },
+    {
       "start": "2025-11-23",
-      "count": 9
+      "count": 15
     },
     {
       "start": "2025-11-30",
-      "count": 8
+      "count": 18
     },
     {
       "start": "2025-12-07",
@@ -130,31 +200,31 @@
     },
     {
       "start": "2025-12-14",
-      "count": 35
+      "count": 52
     },
     {
       "start": "2025-12-21",
-      "count": 9
+      "count": 45
     },
     {
       "start": "2025-12-28",
-      "count": 36
+      "count": 52
     },
     {
       "start": "2026-01-04",
-      "count": 99
+      "count": 250
     },
     {
       "start": "2026-01-11",
-      "count": 34
+      "count": 96
     },
     {
       "start": "2026-01-18",
-      "count": 5
+      "count": 103
     },
     {
       "start": "2026-01-25",
-      "count": 0
+      "count": 8
     },
     {
       "start": "2026-02-01",
@@ -162,7 +232,7 @@
     },
     {
       "start": "2026-02-08",
-      "count": 46
+      "count": 53
     },
     {
       "start": "2026-02-15",
@@ -170,11 +240,11 @@
     },
     {
       "start": "2026-02-22",
-      "count": 9
+      "count": 61
     },
     {
       "start": "2026-03-01",
-      "count": 2
+      "count": 6
     },
     {
       "start": "2026-03-08",
@@ -190,59 +260,59 @@
     },
     {
       "start": "2026-03-29",
-      "count": 11
+      "count": 13
     },
     {
       "start": "2026-04-05",
-      "count": 0
+      "count": 30
     },
     {
       "start": "2026-04-12",
-      "count": 0
+      "count": 139
     },
     {
       "start": "2026-04-19",
-      "count": 5
+      "count": 122
     },
     {
       "start": "2026-04-26",
-      "count": 2
+      "count": 58
     },
     {
       "start": "2026-05-03",
-      "count": 3
+      "count": 29
     },
     {
       "start": "2026-05-10",
-      "count": 6
+      "count": 139
     },
     {
       "start": "2026-05-17",
-      "count": 11
+      "count": 244
     },
     {
       "start": "2026-05-24",
-      "count": 1
+      "count": 249
     },
     {
       "start": "2026-05-31",
-      "count": 0
+      "count": 168
     },
     {
       "start": "2026-06-07",
-      "count": 10
+      "count": 153
     },
     {
       "start": "2026-06-14",
-      "count": 20
+      "count": 81
     },
     {
       "start": "2026-06-21",
-      "count": 0
+      "count": 22
     },
     {
       "start": "2026-06-28",
-      "count": 0
+      "count": 91
     },
     {
       "start": "2026-07-05",
@@ -250,23 +320,23 @@
     },
     {
       "start": "2026-07-12",
-      "count": 2
+      "count": 88
     },
     {
       "start": "2026-07-19",
-      "count": 0
+      "count": 1
     },
     {
       "start": "2026-07-26",
-      "count": 20
+      "count": 56
     },
     {
       "start": "2026-08-02",
-      "count": 15
+      "count": 102
     },
     {
       "start": "2026-08-09",
-      "count": 0
+      "count": 3
     },
     {
       "start": "2026-08-16",
@@ -294,7 +364,7 @@
     },
     {
       "start": "2026-09-27",
-      "count": 5
+      "count": 15
     },
     {
       "start": "2026-10-04",
@@ -302,17 +372,17 @@
     },
     {
       "start": "2026-10-11",
-      "count": 5
+      "count": 23
     },
     {
       "start": "2026-10-18",
-      "count": 21
+      "count": 26
     },
     {
       "start": "2026-10-25",
-      "count": 13
+      "count": 25
     }
   ],
-  "xp": 6350,
-  "level": 8
+  "xp": 32410,
+  "level": 19
 }
