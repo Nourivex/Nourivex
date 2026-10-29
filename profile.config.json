@@ -3,63 +3,59 @@
   "username": "nourivex",
   "role": "Backend Systems Engineer",
   "focus": "Cloud Architecture & Agentic Workflows",
-  "tagline": "Systems that hold. Deploys that ship. Nouri keeps watch.",
-  "timezone": "Asia/Jakarta",
-  "tzLabel": "UTC+7",
-  "nightHours": { "from": 22, "to": 6 },
+  "tagline": "Architecting resilient backends, reliable data pipelines, and production-grade services.",
+  "location": "Indonesia",
+  "timezone": "Asia/Jakarta (UTC+7)",
 
   "links": {
     "email": "muhammad321afiff@gmail.com",
+    "github": "https://github.com/nourivex",
     "linkedin": "",
     "portfolio": ""
   },
 
   "about": {
-    "bio": "I build backend systems and cloud-native services, crafting APIs, data layers, and agentic workflows engineered to stay reliable under real traffic.",
-    "class": "Backend Systems Engineer",
-    "subclass": "Cloud Architecture",
-    "main": "Go · Node.js · Express",
-    "learning": "Agentic Workflows",
-    "status": "Open to collaborate",
-    "base": "Indonesia · UTC+7"
-  },
-
-  "currentQuest": {
-    "title": "MediCare-Bridge",
-    "phase": "active build: DDI engine guarding every prescription"
+    "summary": "Backend Systems Engineer focused on cloud-native architectures, distributed services, and agentic workflows. Specializing in crafting performant APIs and dependable data infrastructures that maintain peak reliability under real-world traffic.",
+    "status": "Available for high-impact backend & cloud initiatives",
+    "core": "Go · Node.js · PostgreSQL · Docker · Cloud Native"
   },
 
   "stack": [
-    { "slot": "BACKEND", "rank": "MAIN", "items": ["go", "nodedotjs", "express", "postgresql"] },
-    { "slot": "DATA · CACHE", "rank": "MAIN", "items": ["mysql", "redis", "prisma", "typescript"] },
-    { "slot": "DEVOPS", "rank": "MAIN", "items": ["docker", "git", "linux", "github"] },
-    { "slot": "LANGUAGES", "rank": "SIDE", "items": ["python", "flutter"] },
-    { "slot": "ENVIRONMENT", "rank": "MAIN", "items": ["fedora"] }
+    {
+      "category": "Backend Engineering",
+      "items": ["go", "nodedotjs", "express", "typescript"]
+    },
+    {
+      "category": "Data & Persistence",
+      "items": ["postgresql", "mysql", "redis", "prisma"]
+    },
+    {
+      "category": "Cloud & Infrastructure",
+      "items": ["docker", "linux", "git", "github", "fedora"]
+    },
+    {
+      "category": "Extended Stack",
+      "items": ["python", "flutter"]
+    }
   ],
 
   "projects": [
     {
       "key": "medicare",
-      "quest": "QUEST 01",
-      "type": "MAIN",
+      "badge": "PRODUCTION SYSTEM",
       "title": "MediCare-Bridge",
-      "summary": "Cross-platform medication safety platform with a DDI checker engine that flags dangerous prescription combinations before reaching patients.",
-      "boss": "Silent drug-drug interactions that slip past manual review",
-      "win": "DDI engine catches conflicts before prescription is signed",
+      "summary": "Cross-platform medication safety infrastructure featuring an automated drug-drug interaction (DDI) validation engine designed to guard prescriptions prior to issuance.",
+      "metrics": "Zero-latency lookup · Rule-based interaction safety",
       "tech": ["Node.js", "Express", "Prisma", "PostgreSQL", "Flutter"],
-      "status": "IN PROGRESS",
       "repo": "MediCare-Bridge"
     },
     {
       "key": "laptopfinder",
-      "quest": "QUEST 02",
-      "type": "MAIN",
+      "badge": "DECISION ENGINE",
       "title": "LaptopFinder Engine",
-      "summary": "Decision support platform ranking laptops against user priorities via weighted SAW matrix with zero sponsored bias.",
-      "boss": "Spec sheet overload with too many options and no clear winner",
-      "win": "SAW-weighted matrix surfaces the right machine for each use case",
-      "tech": ["Node.js", "SAW", "Next.js", "PostgreSQL"],
-      "status": "IN PROGRESS",
+      "summary": "Algorithmic decision support platform that evaluates and ranks hardware against multidimensional user criteria utilizing a Simple Additive Weighting (SAW) matrix.",
+      "metrics": "Objective multi-criteria evaluation · Dynamic scoring",
+      "tech": ["Node.js", "Next.js", "PostgreSQL", "SAW Algorithm"],
       "repo": "LaptopFinder"
     }
   ]
