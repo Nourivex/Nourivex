@@ -134,10 +134,14 @@ export function techStackCard(cfg) {
     const divider = `<line x1="220" y1="${ry + 8}" x2="220" y2="${ry + 48}" stroke="${C.borderSubtle}" stroke-width="1"/>`;
 
     let itemX = 240;
+    const availableW = W - 40 - 240;
+    const count = group.items.length;
+    const gap = count > 4 ? 10 : 12;
+    const iw = count > 4 ? Math.floor((availableW - (count - 1) * gap) / count) : 150;
+    const ih = 40;
+
     const itemsSvg = group.items.map((item) => {
       const ic = techIcon(item);
-      const iw = 150;
-      const ih = 40;
       const itSvg = `
         <g transform="translate(${itemX} ${ry + 8})">
           ${cleanCard({ x: 0, y: 0, w: iw, h: ih, rx: 8, bg: C.bgSubtle, border: C.border, strokeWidth: 1 })}
@@ -145,7 +149,7 @@ export function techStackCard(cfg) {
           ${t.text(ic.title, { x: 38, y: 25, size: 12.5, style: 'disp700', fill: C.textMain })}
         </g>
       `;
-      itemX += iw + 12;
+      itemX += iw + gap;
       return itSvg;
     }).join('');
 

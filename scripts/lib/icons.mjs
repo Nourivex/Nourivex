@@ -20,7 +20,8 @@ const CUSTOM = {
 export function techIcon(item) {
   const b = brands[item];
   if (b) {
-    const color = lum(b.hex) < 0.22 ? C.text : '#' + b.hex;
+    const textColor = C.textMain || '#0F172A';
+    const color = lum(b.hex) < 0.22 ? textColor : '#' + b.hex;
     return { title: b.title, color, draw: (x, y, s = 24) => `<g transform="translate(${x} ${y}) scale(${s / 24})"><path d="${b.d}" fill="${color}"/></g>` };
   }
   const f = CUSTOM[item];
