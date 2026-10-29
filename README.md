@@ -26,7 +26,7 @@
 
 <p align="center">
   <a href="https://github.com/nourivex/MediCare-Bridge"><img src="assets/project-medicare.svg" width="49%" alt="MediCare-Bridge"></a>
-  <a href="https://github.com/nourivex/LaptopFinder"><img src="assets/project-laptopfinder.svg" width="49%" alt="LaptopFinder Engine"></a>
+  <a href="https://github.com/nourivex/JobHarbour"><img src="assets/project-jobharbour.svg" width="49%" alt="JobHarbour"></a>
 </p>
 
 

@@ -39,10 +39,13 @@ out('contact.svg', contactBar(cfg));
 // ---------- Clean, High-Impact Professional README.md ----------
 const gh = `https://github.com/${cfg.username}`;
 
+const projectLinks = (cfg.projects || []).map(p => 
+  `  <a href="${gh}/${p.repo}"><img src="assets/project-${p.key}.svg" width="49%" alt="${p.title}"></a>`
+).join('\n');
+
 const projectGrid = `
 <p align="center">
-  <a href="${gh}/MediCare-Bridge"><img src="assets/project-medicare.svg" width="49%" alt="MediCare-Bridge"></a>
-  <a href="${gh}/LaptopFinder"><img src="assets/project-laptopfinder.svg" width="49%" alt="LaptopFinder Engine"></a>
+${projectLinks}
 </p>
 `;
 
