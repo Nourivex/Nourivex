@@ -52,13 +52,13 @@
       "repo": "MediCare-Bridge"
     },
     {
-      "key": "laptopfinder",
-      "badge": "DECISION ENGINE",
-      "title": "LaptopFinder Engine",
-      "summary": "Algorithmic decision support platform that evaluates and ranks hardware against multidimensional user criteria utilizing a Simple Additive Weighting (SAW) matrix.",
-      "metrics": "Objective multi-criteria evaluation · Dynamic scoring",
-      "tech": ["Node.js", "Next.js", "PostgreSQL", "SAW Algorithm"],
-      "repo": "LaptopFinder"
+      "key": "jobharbour",
+      "badge": "MICROSERVICES PLATFORM",
+      "title": "JobHarbour",
+      "summary": "Integrated recruitment platform powered by microservices architecture and automated skill-matchmaking engine for multi-stage candidate pipeline tracking.",
+      "metrics": "Automated skill matching · Multi-stage pipeline",
+      "tech": ["Laravel", "PHP", "Docker", "REST API", "Microservices"],
+      "repo": "JobHarbour"
     }
   ]
 }
