@@ -241,19 +241,31 @@ export function contactBar(cfg) {
 
   const titleSvg = t.text('LET’S CONNECT & BUILD', {
     x: 36,
-    y: 38,
+    y: 36,
     size: 13,
     style: 'mono700',
     fill: C.textMain,
     ls: 1
   });
 
-  const subSvg = t.text('Open for backend engineering discussions, system design, and collaborative builds.', {
+  const subSvg = t.text('Portfolio: nourivex.tech (migrating to nour.web.id in December)', {
     x: 36,
-    y: 58,
-    size: 12.5,
-    style: 'disp500',
-    fill: C.textMuted
+    y: 56,
+    size: 12,
+    style: 'mono500',
+    fill: C.primary
+  });
+
+  const webBadge = badge(t, {
+    x: W - 36 - 360,
+    y: 28,
+    label: 'nourivex.tech',
+    bg: C.bgSubtle,
+    color: C.textMain,
+    border: C.border,
+    size: 11,
+    h: 28,
+    padX: 12
   });
 
   const emailBadge = badge(t, {
@@ -273,6 +285,7 @@ export function contactBar(cfg) {
     ${bgCard}
     ${titleSvg}
     ${subSvg}
+    ${webBadge.svg}
     ${emailBadge.svg}
   `;
 

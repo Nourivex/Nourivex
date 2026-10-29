@@ -75,6 +75,21 @@ export function buildHero(cfg) {
     </g>
   `;
 
+  // Website and domain transition info
+  const siteText = `WEB: nourivex.tech → nour.web.id (Dec)`;
+  const siteBadge = badge(t, {
+    x: 0,
+    y: 0,
+    label: siteText,
+    bg: C.primaryBg,
+    color: C.primary,
+    border: C.primaryBorder,
+    size: 9.5,
+    h: 24,
+    padX: 8,
+    dot: true
+  });
+
   // Small specs pill list at the bottom right
   const pillList = ['GO / NODE.JS', 'DISTRIBUTED ARCHITECTURE', 'DOCKER / LINUX'];
   let px = W - 48;
@@ -94,6 +109,8 @@ export function buildHero(cfg) {
     return `<g transform="translate(${px} ${H - 46})">${b.svg}</g>`;
   }).join('');
 
+  const siteSvg = `<g transform="translate(${px - siteBadge.w - 8} ${H - 46})">${siteBadge.svg}</g>`;
+
   const body = `
     ${bgCard}
     ${innerDot}
@@ -103,6 +120,7 @@ export function buildHero(cfg) {
     ${roleSvg}
     ${taglineSvg}
     ${companionSvg}
+    ${siteSvg}
     ${pillsSvg}
   `;
 

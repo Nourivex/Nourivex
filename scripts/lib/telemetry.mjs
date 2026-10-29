@@ -7,6 +7,8 @@ const H = 240;
 
 const fmt = (n) => Number(n || 0).toLocaleString('en-US');
 
+export const levelFromXp = (xp) => Math.floor(Math.sqrt((xp || 0) / 100)) + 1;
+
 export function metricsCard(s) {
   const t = new Typo('m');
 

@@ -82,13 +82,14 @@ ${projectGrid}
 <br>
 
 <div align="center">
-  <a href="mailto:${cfg.links.email}"><img src="assets/contact.svg" width="100%" alt="Contact & Collaborate"></a>
+  <a href="${cfg.links.website}"><img src="assets/contact.svg" width="100%" alt="Contact & Portfolio"></a>
 </div>
 
 <br>
 
 <p align="center">
-  <sub>© ${new Date().getFullYear()} ${cfg.name} · Designed with focus on clarity, engineering performance, and reliability.</sub>
+  <sub>🌐 Portfolio: <a href="https://nourivex.tech"><b>nourivex.tech</b></a> (migrating to <a href="https://nour.web.id"><b>nour.web.id</b></a> in December) · <a href="mailto:${cfg.links.email}"><b>${cfg.links.email}</b></a></sub><br>
+  <sub>© ${new Date().getFullYear()} ${cfg.name} · Auto-synchronized via GitHub Actions.</sub>
 </p>
 `;
 

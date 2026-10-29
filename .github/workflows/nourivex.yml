@@ -43,5 +43,5 @@ jobs:
         run: |
           git config user.name "nourivex"
           git config user.email "muhammad321afiff@gmail.com"
-          git add assets data README.md SECRET.md
+          git add assets data README.md
           git diff --cached --quiet || (git commit -m "chore(nourivex): refresh profile assets" && git push)

@@ -39,11 +39,12 @@
 <br>
 
 <div align="center">
-  <a href="mailto:muhammad321afiff@gmail.com"><img src="assets/contact.svg" width="100%" alt="Contact & Collaborate"></a>
+  <a href="https://nourivex.tech"><img src="assets/contact.svg" width="100%" alt="Contact & Portfolio"></a>
 </div>
 
 <br>
 
 <p align="center">
-  <sub>© 2026 Muhammad Affif · Designed with focus on clarity, engineering performance, and reliability.</sub>
+  <sub>🌐 Portfolio: <a href="https://nourivex.tech"><b>nourivex.tech</b></a> (migrating to <a href="https://nour.web.id"><b>nour.web.id</b></a> in December) · <a href="mailto:muhammad321afiff@gmail.com"><b>muhammad321afiff@gmail.com</b></a></sub><br>
+  <sub>© 2026 Muhammad Affif · Auto-synchronized via GitHub Actions.</sub>
 </p>
